@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sujevi"
+version = "0.1.0"
+description = "Local research runners for OneJev and Jev-Omni"
+requires-python = ">=3.12"
+dependencies = [
+  "transformers==5.17.0",
+  "accelerate>=1.0",
+  "huggingface_hub>=1.0",
+  "safetensors>=0.4",
+  "numpy>=1.26",
+  "Pillow>=10",
+  "opencv-python-headless>=4.10",
+  "soundfile>=0.12",
+  "librosa>=0.11",
+]
+
+[project.optional-dependencies]
+train = [
+  "peft>=0.13",
+  "pyarrow>=14",
+  "pyyaml>=6",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
