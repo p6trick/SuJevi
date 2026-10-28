@@ -40,7 +40,12 @@ python scripts/download_models.py --jev-omni
 ```bash
 python examples/onejev_local.py
 python examples/jev_omni_local.py
+python examples/jev_omni_image.py --image examples/cat.jpg
 ```
+
+`jev_omni_image.py` runs the same three image questions as the OneJev JSON
+example and prints Jev-Omni's native prediction, confidence and probability
+fields without converting them to OneJev's `noul`, `choice` or `score` schema.
 
 Run a JSON request directly, still without a web server:
 
