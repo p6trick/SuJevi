@@ -1,0 +1,14 @@
+{
+  "model": "Jeff-1.1-Qwen-4B",
+  "answers": {
+    "billing_related": {
+      "type": "noul",
+      "noul": 0.947872902287243
+    }
+  },
+  "usage": {
+    "input_tokens": 120,
+    "output_tokens": 0
+  },
+  "latency_ms": 1721.9
+}

@@ -8,3 +8,18 @@ Python loader, without an HTTP server. `kev-4b.probabilities.json` keeps the
 complete distribution for every question, including both `false` and `true`
 for Noul. Neither is considered successful until the user-provided execution
 log is reviewed.
+
+Jeff smoke tests create one native response and one representation artifact per
+question type. A Jeff representation artifact retains the raw decision-head
+logits, raw softmax, calibrated distribution, and ordered option-ID mapping.
+The calibrated distribution is the default representation. No Jeff output is
+considered successful until the corresponding user execution is reviewed.
+
+The user-verified Jeff artifacts are:
+
+- `jeff-1.1-qwen-4b.noul.json` and
+  `jeff-1.1-qwen-4b.noul.representations.json`;
+- `jeff-1.1-qwen-4b.choice.json` and
+  `jeff-1.1-qwen-4b.choice.representations.json`; and
+- `jeff-1.1-qwen-4b.score.json` and
+  `jeff-1.1-qwen-4b.score.representations.json`.

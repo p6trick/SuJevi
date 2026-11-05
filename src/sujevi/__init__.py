@@ -10,11 +10,35 @@ from __future__ import annotations
 from typing import Any
 
 
-__all__ = ["KevLocalRuntime", "KevPrediction", "LocalJevOmni", "LocalOneJev"]
+__all__ = [
+    "JeffLocalRuntime",
+    "JeffPrediction",
+    "JeffQuestionRepresentation",
+    "KevLocalRuntime",
+    "KevPrediction",
+    "LocalJevOmni",
+    "LocalOneJev",
+]
 
 
 def __getattr__(name: str) -> Any:
-    if name in {"KevLocalRuntime", "KevPrediction"}:
+    if name in {
+        "JeffLocalRuntime",
+        "JeffPrediction",
+        "JeffQuestionRepresentation",
+    }:
+        from .jeff_local import (
+            JeffLocalRuntime,
+            JeffPrediction,
+            JeffQuestionRepresentation,
+        )
+
+        exports = {
+            "JeffLocalRuntime": JeffLocalRuntime,
+            "JeffPrediction": JeffPrediction,
+            "JeffQuestionRepresentation": JeffQuestionRepresentation,
+        }
+    elif name in {"KevLocalRuntime", "KevPrediction"}:
         from .kev_local import KevLocalRuntime, KevPrediction
 
         exports = {

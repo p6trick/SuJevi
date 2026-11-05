@@ -1,0 +1,10 @@
+{
+  "state": "A customer reports that their card was charged twice for the same order and requests a refund.",
+  "model": "Jeff-1.1-Qwen-4B",
+  "questions": {
+    "billing_related": {
+      "type": "noul",
+      "instructions": "Is this request related to billing?"
+    }
+  }
+}

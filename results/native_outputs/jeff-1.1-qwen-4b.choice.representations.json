@@ -1,0 +1,59 @@
+{
+  "model": "Jeff-1.1-Qwen-4B",
+  "checkpoint": "/home1/irteam/data-vol1/SuJevi/models/huggingface/hub/models--jgeuter--Jeff-1.1-Qwen-4B/snapshots/5401940b5a8c959cba82187ebfa2dce5a21abc0a",
+  "checkpoint_revision": "5401940b5a8c959cba82187ebfa2dce5a21abc0a",
+  "dtype": "bfloat16",
+  "quantized": false,
+  "reasoning": false,
+  "noul_commitment": false,
+  "serving_rule": {
+    "choice_t": 1.2900399774854812,
+    "noul_t": 1.228609502367125,
+    "score_t": 1.1701042879686905
+  },
+  "default_model_representation": "calibrated_probability_distribution",
+  "questions": {
+    "route": {
+      "question_type": "choice",
+      "option_ids": [
+        "billing",
+        "shipping",
+        "returns"
+      ],
+      "raw_logits": {
+        "billing": 22.1944580078125,
+        "shipping": 13.621166229248047,
+        "returns": 13.485671997070312
+      },
+      "raw_probability_distribution": {
+        "billing": 0.9996459484100342,
+        "shipping": 0.00018902223382610828,
+        "returns": 0.00016507013060618192
+      },
+      "calibrated_probability_distribution": {
+        "billing": 0.9975366009275218,
+        "shipping": 0.0012963234753744326,
+        "returns": 0.0011670755971037391
+      },
+      "option_id_probability_mapping": [
+        {
+          "option_id": "billing",
+          "probability": 0.9975366009275218
+        },
+        {
+          "option_id": "shipping",
+          "probability": 0.0012963234753744326
+        },
+        {
+          "option_id": "returns",
+          "probability": 0.0011670755971037391
+        }
+      ],
+      "default_model_representation": {
+        "billing": 0.9975366009275218,
+        "shipping": 0.0012963234753744326,
+        "returns": 0.0011670755971037391
+      }
+    }
+  }
+}

@@ -1,0 +1,150 @@
+model_key: jeff
+display_name: Jeff-1.1-Qwen-4B
+modality:
+  - text
+
+source:
+  paper: https://arxiv.org/abs/2610.17205
+  paper_version_reviewed: arXiv:2610.17205v1
+  code_repository: https://github.com/j-geuter/Jeff.git
+  code_release: v1.3.0
+  code_revision: 2c446ca3249f31c83cc4a230f3aed605858da330
+  checkpoint_repository: jgeuter/Jeff-1.1-Qwen-4B
+  checkpoint_revision: 5401940b5a8c959cba82187ebfa2dce5a21abc0a
+  base_model_repository: Qwen/Qwen3.5-4B
+  base_model_revision: 851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a
+
+architecture:
+  backbone: Qwen3.5-4B instruction-tuned
+  served_precision: bf16
+  quantized: false
+  lora:
+    training_rank_per_run: 32
+    training_alpha: 64
+    released_soup_rank: 96
+    merged_into_released_backbone: true
+    separate_adapter_in_checkpoint: true
+  decision_head: residual letter readout head
+  decision_head_slots: 16
+  bidirectional_attention: full
+  training_steps: 800
+  training_runs: 3
+
+native_interface:
+  implementation: official jeff.JeffModel
+  transport: in-process
+  optional_http_server_required: false
+  question_types:
+    - noul
+    - choice
+    - score
+  reasoning: false
+  noul_commitment: false
+  calibration:
+    choice_temperature: 1.2900399774854812
+    noul_temperature: 1.228609502367125
+    score_temperature: 1.1701042879686905
+
+model_representation:
+  default: calibrated_probability_distribution
+  preserved_fields:
+    - raw_logits
+    - raw_probability_distribution
+    - calibrated_probability_distribution
+    - option_id_probability_mapping
+  notes:
+    raw_probability_distribution: Softmax of the decision-head logits before the serving temperature.
+    calibrated_probability_distribution: Per-question-type temperature scaling with Noul commitment disabled.
+    noul: Both true and false probabilities are retained even though the native response reports only P(true).
+
+fine_tuning:
+  official_training_script: false
+  ws1_implementation_required: false
+  paper_recipe: LoRA plus a jointly trained residual decision head
+  exact_1_1_reproduction_from_public_artifacts: false
+  current_stage_execution: not_implemented
+
+local_artifacts:
+  huggingface_home: models/huggingface
+  checkpoint_snapshot: models/huggingface/hub/models--jgeuter--Jeff-1.1-Qwen-4B/snapshots/5401940b5a8c959cba82187ebfa2dce5a21abc0a
+  user_reported_cache_size: 18G
+
+download_validation:
+  verified_at: 2026-11-05
+  snapshot_revision: 5401940b5a8c959cba82187ebfa2dce5a21abc0a
+  sha256sums: all_files_ok
+
+validation:
+  last_verified_at: 2026-11-06
+  device: NVIDIA H200
+  dtype: bfloat16
+  quantized: false
+  reasoning: false
+  noul_commitment: false
+  component_types:
+    backbone: transformers.models.qwen3_5.modeling_qwen3_5.Qwen3_5ForCausalLM
+    base_model: transformers.models.qwen3_5.modeling_qwen3_5.Qwen3_5TextModel
+    decision_head: jeff.head.DecisionHead
+  question_types_verified:
+    - noul
+    - choice
+    - score
+  noul:
+    input_tokens: 120
+    latency_ms_first_validated_request: 1721.9
+    raw_logits:
+      true: 20.877220153808594
+      false: 17.313596725463867
+    raw_probability_distribution:
+      true: 0.9724448919296265
+      false: 0.027555163949728012
+    calibrated_probability_distribution:
+      true: 0.947872902287243
+      false: 0.05212709771275703
+    native_noul_matches_calibrated_true: true
+  choice:
+    input_tokens: 149
+    latency_ms_validated_request: 844.8
+    selected: billing
+    raw_logits:
+      billing: 22.1944580078125
+      shipping: 13.621166229248047
+      returns: 13.485671997070312
+    raw_probability_distribution:
+      billing: 0.9996459484100342
+      shipping: 0.00018902223382610828
+      returns: 0.00016507013060618192
+    calibrated_probability_distribution:
+      billing: 0.9975366009275218
+      shipping: 0.0012963234753744326
+      returns: 0.0011670755971037391
+    native_choice_matches_calibrated_argmax: true
+  score:
+    input_tokens: 137
+    latency_ms_validated_request: 832.7
+    selected: 2
+    raw_logits:
+      "0": 14.087364196777344
+      "1": 15.810088157653809
+      "2": 20.268381118774414
+    raw_probability_distribution:
+      "0": 0.002040470251813531
+      "1": 0.011426146142184734
+      "2": 0.9865334033966064
+    calibrated_probability_distribution:
+      "0": 0.004945337718409127
+      "1": 0.021557583589577947
+      "2": 0.973497078692013
+    native_score_matches_calibrated_argmax: true
+  optimized_optional_kernels:
+    causal_conv1d: false
+    flash_linear_attention: false
+    fallback: correct reference PyTorch implementation
+
+license:
+  checkpoint: CC-BY-NC-4.0
+  code: Apache-2.0
+  base_model: Apache-2.0
+  commercial_use: prohibited_by_checkpoint_license
+
+status: success_user_verified

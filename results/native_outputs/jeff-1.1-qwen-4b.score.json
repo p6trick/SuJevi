@@ -1,0 +1,19 @@
+{
+  "model": "Jeff-1.1-Qwen-4B",
+  "answers": {
+    "urgency": {
+      "type": "score",
+      "score": 2,
+      "probabilities": {
+        "0": 0.004945337718409127,
+        "1": 0.021557583589577947,
+        "2": 0.973497078692013
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 137,
+    "output_tokens": 0
+  },
+  "latency_ms": 832.7
+}

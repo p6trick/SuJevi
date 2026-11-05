@@ -1,0 +1,19 @@
+{
+  "model": "Jeff-1.1-Qwen-4B",
+  "answers": {
+    "route": {
+      "type": "choice",
+      "choice": "billing",
+      "probabilities": {
+        "billing": 0.9975366009275218,
+        "shipping": 0.0012963234753744326,
+        "returns": 0.0011670755971037391
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 149,
+    "output_tokens": 0
+  },
+  "latency_ms": 844.8
+}
