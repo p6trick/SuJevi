@@ -1,0 +1,15 @@
+{
+  "state": "A customer reports a duplicate card charge, requests an immediate refund, and says they will cancel the service if the issue is not resolved today.",
+  "model": "Laya",
+  "questions": {
+    "urgency": {
+      "type": "score",
+      "instructions": "How urgently should this customer request be handled?",
+      "criteria": [
+        "Can wait several days.",
+        "Should be handled this week.",
+        "Should be handled today."
+      ]
+    }
+  }
+}

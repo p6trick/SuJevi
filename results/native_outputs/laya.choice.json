@@ -1,0 +1,28 @@
+{
+  "model": "laya-rl-agent",
+  "answers": {
+    "route": {
+      "type": "choice",
+      "choice": "billing",
+      "probabilities": {
+        "billing": 0.4905,
+        "shipping": 0.0361,
+        "returns": 0.4734
+      },
+      "confidence": 0.2506,
+      "answer_confidence": 0.4905,
+      "action": {
+        "act_probability": 1.0
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 79,
+    "output_tokens": 0,
+    "state_tokens": 18,
+    "state_tokens_dropped": 0,
+    "truncated": false,
+    "truncated_questions": []
+  },
+  "latency_ms": 1475.0
+}

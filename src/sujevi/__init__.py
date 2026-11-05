@@ -16,6 +16,9 @@ __all__ = [
     "JeffQuestionRepresentation",
     "KevLocalRuntime",
     "KevPrediction",
+    "LayaLocalRuntime",
+    "LayaPrediction",
+    "LayaQuestionRepresentation",
     "LocalJevOmni",
     "LocalOneJev",
 ]
@@ -44,6 +47,22 @@ def __getattr__(name: str) -> Any:
         exports = {
             "KevLocalRuntime": KevLocalRuntime,
             "KevPrediction": KevPrediction,
+        }
+    elif name in {
+        "LayaLocalRuntime",
+        "LayaPrediction",
+        "LayaQuestionRepresentation",
+    }:
+        from .laya_local import (
+            LayaLocalRuntime,
+            LayaPrediction,
+            LayaQuestionRepresentation,
+        )
+
+        exports = {
+            "LayaLocalRuntime": LayaLocalRuntime,
+            "LayaPrediction": LayaPrediction,
+            "LayaQuestionRepresentation": LayaQuestionRepresentation,
         }
     elif name == "LocalJevOmni":
         from .jev_omni_local import LocalJevOmni

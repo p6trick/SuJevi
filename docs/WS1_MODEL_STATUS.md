@@ -12,7 +12,7 @@ model-pool decision and requires no environment or runtime execution.
 | 1 | Kev-4B | Success | Success | Success | Success | Success |
 | 2 | Jeff-1.1-Qwen-4B | Success | Success | Success | Success | Success |
 | 3 | Decider | Excluded | Excluded | Excluded | Excluded | Excluded |
-| 4 | Laya | Pending | Pending | Pending | Pending | Pending |
+| 4 | Laya | Success | Success | Success | Success | Success |
 | 5 | Bosun | Pending | Pending | Pending | Pending | Pending |
 
 ## Kev-4B research record
@@ -240,7 +240,97 @@ The repository includes supervised training and data-building code, although
 the exact current v3 rank-64 LoRA stage and complete mixture-v2 recipe are not
 fully reproducible from a single public training entry point.
 
+## Laya research and environment record
+
+- Official code: `NandhaKishorM/laya`, release `v0.4.24`, pinned to
+  `9d3fcc8924ef47b71510f77e19659f97ade0eec4`.
+- Checkpoint: `convaiinnovations/laya`, pinned to
+  `7b928d828b7b0e022f929d9bd2e44165aa270148`.
+- Architecture: ModernBERT-large plus a two-layer typed-decision head, about
+  421M parameters, with native Noul, Choice, and Score outputs.
+- Runtime: official local `laya.load` / `laya.Agent`; no HTTP service,
+  quantization, ONNX conversion, or TileLang path is required.
+- Fine-tuning: official `laya-train` CLI and `laya.train.finetune` Python API
+  support RLCD, soft cross-entropy, full-encoder, and head-only training.
+- Paper: no first-party Laya methods paper was identified as of 2026-11-06.
+- License: Apache-2.0 for both code and checkpoint.
+
+### User-verified environment
+
+- Verified on 2026-11-06 from the user-provided environment report.
+- Python 3.12.16 in `/opt/conda/envs/laya/bin/python`.
+- PyTorch 2.13.0+cu130 with CUDA runtime 13.0.
+- Transformers 5.17.0, Laya 0.4.24, and VegaML 0.15.0.
+- CUDA available on one NVIDIA H200, compute capability 9.0, with 139.8 GiB.
+- All declared package constraints passed; no failures were reported.
+
+### User-verified checkpoint download
+
+- Verified on 2026-11-06 from the user-provided download and file report.
+- Snapshot resolved to the pinned revision
+  `7b928d828b7b0e022f929d9bd2e44165aa270148`.
+- All five files required by the official Agent allow-list were present.
+- `model.safetensors` size: 842,609,210 bytes.
+- `model.safetensors` SHA-256:
+  `891102d372688fc2a094dac56a384bc537b87c63f21f9f3dac0be2b7cbc8d86c`.
+- The shared project Hugging Face cache was 19 GiB after download.
+
+### User-verified Noul smoke test
+
+- Verified on 2026-11-06 using the official eager Agent path on the H200.
+- Backbone: `ModernBertModel`; decision head: `TransformerEncoder`; option
+  scorer: `Sequential`.
+- Raw logits `[false, true]`: `[-2.125, 1.4453125]`.
+- Raw distribution `[false, true]`:
+  `[0.027376487851142883, 0.9726234674453735]`.
+- Official `noul:2` temperature: `1.983399510383606`.
+- Temperature-scaled distribution `[false, true]`:
+  `[0.14183920621871948, 0.8581608533859253]`.
+- Native Noul `0.8582` equals the full-precision P(true) rounded to four
+  decimals. Neither state nor option content was truncated.
+- The expected `choice:11+` clamp warning appeared and does not affect this
+  Noul bucket.
+- `action.act_probability` was `1.0`; it is retained as native output but is
+  not used as a model representation or routing signal because the official
+  model card marks the action head as not usable.
+
+### User-verified Choice smoke test
+
+- Verified on 2026-11-06 using the same eager BF16 runtime.
+- Ordered option IDs: `[billing, shipping, returns]`; no state or option
+  content was truncated.
+- Raw logits: `[2.4375, -2.15625, 2.375]`.
+- Raw distribution:
+  `[0.5129446983337402, 0.005188361741602421, 0.4818669259548187]`.
+- Official `choice:3-5` temperature: `1.7601518630981445`.
+- Temperature-scaled distribution:
+  `[0.49051839113235474, 0.03607510030269623, 0.47340652346611023]`.
+- Native probabilities `[0.4905, 0.0361, 0.4734]` match the full-precision
+  distribution rounded to four decimals, and native choice `billing` matches
+  its argmax.
+- Native `confidence=0.2506` is normalized-entropy confidence, whereas
+  `answer_confidence=0.4905` is calibrated top probability. WS1 uses neither
+  scalar in place of the complete calibrated distribution.
+
+### User-verified Score smoke test
+
+- Verified on 2026-11-06 using the same eager BF16 runtime.
+- Ordered level IDs: `[0, 1, 2]`; no state or option content was truncated.
+- Raw logits: `[-2.421875, -2.28125, 3.890625]`.
+- Raw distribution:
+  `[0.0018064472824335098, 0.0020792081486433744, 0.9961143732070923]`.
+- Official `score:3-5` temperature: `1.2514300346374512`.
+- Temperature-scaled distribution:
+  `[0.006359559949487448, 0.0071158926002681255, 0.9865245819091797]`.
+- Native probabilities `[0.0064, 0.0071, 0.9865]` match the full-precision
+  distribution rounded to four decimals.
+- The full-precision expected score is `1.9801650564186275`; native score
+  `1.9802` matches it rounded to four decimals.
+
 ## Current gate
 
 Kev-4B and Jeff-1.1-Qwen-4B WS1 validation are complete. Decider is excluded.
-The next model research gate is Laya.
+Laya research, environment, checkpoint download, local eager runtime, and all
+three Noul/Choice/Score smoke tests are complete. Preserve the profiles,
+runtime, requests, six output artifacts, documentation, and status record in
+Git before starting Bosun research.

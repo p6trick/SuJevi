@@ -40,6 +40,16 @@ JEFF_REQUIREMENTS = {
     "jeff": "==1.3.0",
 }
 
+LAYA_REQUIREMENTS = {
+    "torch": "==2.13.0",
+    "transformers": "==5.17.0",
+    "safetensors": "==0.8.0",
+    "huggingface_hub": "==1.32.0",
+    "numpy": "==2.5.3",
+    "laya": "==0.4.24",
+    "vegaml": ">=0.15.0",
+}
+
 
 def package_report(requirements: dict[str, str]) -> tuple[dict[str, Any], list[str]]:
     try:
@@ -184,15 +194,51 @@ def check_jeff() -> tuple[dict[str, Any], list[str]]:
     )
 
 
+def check_laya() -> tuple[dict[str, Any], list[str]]:
+    failures: list[str] = []
+    python_ok = (3, 12) <= sys.version_info[:2] < (3, 13)
+    if not python_ok:
+        failures.append("Laya profile requires Python >=3.12,<3.13")
+
+    packages, package_failures = package_report(LAYA_REQUIREMENTS)
+    failures.extend(package_failures)
+
+    laya_importable = importlib.util.find_spec("laya") is not None
+    if not laya_importable:
+        failures.append("the official laya package is not importable")
+
+    cuda, cuda_failures = cuda_report()
+    failures.extend(cuda_failures)
+
+    return (
+        {
+            "profile": "laya",
+            "python": {
+                "version": platform.python_version(),
+                "executable": sys.executable,
+                "required": ">=3.12,<3.13",
+                "ok": python_ok,
+            },
+            "platform": platform.platform(),
+            "laya_importable": laya_importable,
+            "packages": packages,
+            "cuda": cuda,
+        },
+        failures,
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--profile", choices=("kev", "jeff"), required=True)
+    parser.add_argument("--profile", choices=("kev", "jeff", "laya"), required=True)
     args = parser.parse_args()
 
     if args.profile == "kev":
         report, failures = check_kev()
     elif args.profile == "jeff":
         report, failures = check_jeff()
+    elif args.profile == "laya":
+        report, failures = check_laya()
     else:  # pragma: no cover - argparse prevents this branch
         raise AssertionError(args.profile)
 

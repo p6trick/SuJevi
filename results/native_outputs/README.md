@@ -23,3 +23,16 @@ The user-verified Jeff artifacts are:
   `jeff-1.1-qwen-4b.choice.representations.json`; and
 - `jeff-1.1-qwen-4b.score.json` and
   `jeff-1.1-qwen-4b.score.representations.json`.
+
+Laya smoke tests use the official eager `laya.Agent` forward and decoder. Each
+representation artifact retains full-precision raw logits, raw softmax,
+temperature-scaled softmax, the ordered option-ID mapping, and the applied
+temperature bucket. Native responses keep the official four-decimal answer
+format and action field. The action probability is preserved for provenance
+but is not a routing representation.
+
+The user-verified Laya artifacts currently are:
+
+- `laya.noul.json` and `laya.noul.representations.json`; and
+- `laya.choice.json` and `laya.choice.representations.json`; and
+- `laya.score.json` and `laya.score.representations.json`.

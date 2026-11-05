@@ -1,0 +1,33 @@
+{
+  "model": "laya-rl-agent",
+  "answers": {
+    "urgency": {
+      "type": "score",
+      "score": 1.9802,
+      "legend": {
+        "0": "Can wait several days.",
+        "1": "Should be handled this week.",
+        "2": "Should be handled today."
+      },
+      "probabilities": {
+        "0": 0.0064,
+        "1": 0.0071,
+        "2": 0.9865
+      },
+      "confidence": 0.9265,
+      "answer_confidence": 0.9865,
+      "action": {
+        "act_probability": 1.0
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 72,
+    "output_tokens": 0,
+    "state_tokens": 28,
+    "state_tokens_dropped": 0,
+    "truncated": false,
+    "truncated_questions": []
+  },
+  "latency_ms": 915.3
+}

@@ -1,0 +1,23 @@
+{
+  "model": "laya-rl-agent",
+  "answers": {
+    "billing_related": {
+      "type": "noul",
+      "noul": 0.8582,
+      "confidence": 0.8582,
+      "answer_confidence": 0.8582,
+      "action": {
+        "act_probability": 1.0
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 68,
+    "output_tokens": 0,
+    "state_tokens": 18,
+    "state_tokens_dropped": 0,
+    "truncated": false,
+    "truncated_questions": []
+  },
+  "latency_ms": 2313.6
+}

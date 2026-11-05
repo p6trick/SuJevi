@@ -1,0 +1,202 @@
+model_key: laya
+display_name: Laya
+modality:
+  - text
+
+source:
+  paper: null
+  paper_status: No first-party Laya methods paper was identified as of 2026-11-06.
+  code_repository: https://github.com/NandhaKishorM/laya.git
+  code_release: v0.4.24
+  code_revision: 9d3fcc8924ef47b71510f77e19659f97ade0eec4
+  checkpoint_repository: convaiinnovations/laya
+  checkpoint_revision: 7b928d828b7b0e022f929d9bd2e44165aa270148
+  base_model_repository: answerdotai/ModernBERT-large
+
+architecture:
+  family: non-autoregressive typed decision encoder
+  backbone: ModernBERT-large
+  parameters: 421293830
+  context_tokens: 512
+  head_context_tokens: 192
+  decision_head: two transformer layers plus option-marker scorer and act head
+  option_layout: sequential
+  checkpoint_weight_dtype: float16
+  cuda_autocast_dtype: bfloat16
+  quantized: false
+
+native_interface:
+  implementation: official laya.load / laya.Agent
+  transport: in-process
+  optional_http_server_required: false
+  question_types:
+    - noul
+    - choice
+    - score
+  option_order:
+    noul:
+      - "false"
+      - "true"
+    choice: request criteria insertion order
+    score: request criteria index order
+  calibration:
+    method: temperature scaling by question type and option-count bucket
+    temperature:
+      choice: 1.6369030475616455
+      score: 1.2514300346374512
+      noul: 1.983399510383606
+    temperature_by_options:
+      "choice:2": 1.9063563346862793
+      "choice:3-5": 1.7601518630981445
+      "choice:6-10": 1.0000158548355103
+      "choice:11+": 0.10058280825614929
+      "score:3-5": 1.2514300346374512
+      "noul:2": 1.983399510383606
+    runtime_clamp: [0.5, 5.0]
+    known_issue: The shipped choice:11+ value is below the runtime floor and is applied as 0.5 with a warning. Validate option counts above 10 separately.
+
+model_representation:
+  default: calibrated_probability_distribution
+  preserved_fields:
+    - raw_logits
+    - raw_probability_distribution
+    - calibrated_probability_distribution
+    - option_id_probability_mapping
+  notes:
+    raw_logits: Extracted before temperature scaling from the official Agent forward path.
+    raw_probability_distribution: Softmax of the raw option logits.
+    calibrated_probability_distribution: Softmax after the official per-type or per-option-count temperature.
+    public_precision: The normal predict response rounds probabilities to four decimals; the SuJevi runtime will preserve full-precision arrays before native response formatting.
+    calibration_limit: The model card reports that the released checkpoint is over-confident and recommends refitting temperatures on domain data.
+
+fine_tuning:
+  official_training_script: true
+  cli: laya-train
+  python_api: laya.train.finetune
+  objectives:
+    - rlcd
+    - soft-ce
+  full_encoder_training: true
+  head_only_training: true
+  calibration_after_training: true
+  current_stage_execution: not_run
+
+local_artifacts:
+  huggingface_home: models/huggingface
+  checkpoint_snapshot: models/huggingface/hub/models--convaiinnovations--laya/snapshots/7b928d828b7b0e022f929d9bd2e44165aa270148
+
+download_validation:
+  verified_at: 2026-11-06
+  snapshot_revision: 7b928d828b7b0e022f929d9bd2e44165aa270148
+  required_files: all_present
+  model_safetensors_bytes: 842609210
+  model_safetensors_sha256: 891102d372688fc2a094dac56a384bc537b87c63f21f9f3dac0be2b7cbc8d86c
+  user_reported_huggingface_cache_size: 19G
+
+validation:
+  last_verified_at: 2026-11-06
+  device: NVIDIA H200
+  dtype: bfloat16
+  quantized: false
+  backend: eager
+  component_types:
+    backbone: transformers.models.modernbert.modeling_modernbert.ModernBertModel
+    decision_head: torch.nn.modules.transformer.TransformerEncoder
+    option_scorer: torch.nn.modules.container.Sequential
+  question_types_verified:
+    - noul
+    - choice
+    - score
+  noul:
+    input_tokens: 68
+    state_tokens: 18
+    state_tokens_dropped: 0
+    latency_ms_first_validated_request: 2313.6
+    temperature_bucket: "noul:2"
+    applied_temperature: 1.983399510383606
+    raw_logits:
+      "false": -2.125
+      "true": 1.4453125
+    raw_probability_distribution:
+      "false": 0.027376487851142883
+      "true": 0.9726234674453735
+    calibrated_probability_distribution:
+      "false": 0.14183920621871948
+      "true": 0.8581608533859253
+    native_noul: 0.8582
+    native_noul_matches_rounded_calibrated_true: true
+    distributions_normalized_within_float32_tolerance: true
+  expected_runtime_warning:
+    field: "choice:11+"
+    configured: 0.10058280825614929
+    applied: 0.5
+    affects_noul_result: false
+  action_head:
+    act_probability: 1.0
+    model_card_status: not_usable_for_routing
+  choice:
+    input_tokens: 79
+    state_tokens: 18
+    state_tokens_dropped: 0
+    latency_ms_validated_request: 1475.0
+    selected: billing
+    temperature_bucket: "choice:3-5"
+    applied_temperature: 1.7601518630981445
+    raw_logits:
+      billing: 2.4375
+      shipping: -2.15625
+      returns: 2.375
+    raw_probability_distribution:
+      billing: 0.5129446983337402
+      shipping: 0.005188361741602421
+      returns: 0.4818669259548187
+    calibrated_probability_distribution:
+      billing: 0.49051839113235474
+      shipping: 0.03607510030269623
+      returns: 0.47340652346611023
+    native_probabilities:
+      billing: 0.4905
+      shipping: 0.0361
+      returns: 0.4734
+    native_choice_matches_calibrated_argmax: true
+    native_probabilities_match_rounded_calibrated_distribution: true
+    distribution_normalized_within_float32_tolerance: true
+    confidence_semantics: normalized_entropy
+    answer_confidence_semantics: calibrated_top_probability
+  score:
+    input_tokens: 72
+    state_tokens: 28
+    state_tokens_dropped: 0
+    latency_ms_validated_request: 915.3
+    temperature_bucket: "score:3-5"
+    applied_temperature: 1.2514300346374512
+    raw_logits:
+      "0": -2.421875
+      "1": -2.28125
+      "2": 3.890625
+    raw_probability_distribution:
+      "0": 0.0018064472824335098
+      "1": 0.0020792081486433744
+      "2": 0.9961143732070923
+    calibrated_probability_distribution:
+      "0": 0.006359559949487448
+      "1": 0.0071158926002681255
+      "2": 0.9865245819091797
+    native_probabilities:
+      "0": 0.0064
+      "1": 0.0071
+      "2": 0.9865
+    full_precision_expected_score: 1.9801650564186275
+    native_score: 1.9802
+    native_score_matches_rounded_calibrated_expectation: true
+    native_probabilities_match_rounded_calibrated_distribution: true
+    distribution_normalized_within_float32_tolerance: true
+    confidence_semantics: normalized_entropy
+    answer_confidence_semantics: calibrated_top_probability
+
+license:
+  checkpoint: Apache-2.0
+  code: Apache-2.0
+  commercial_use: permitted_subject_to_license
+
+status: success_user_verified

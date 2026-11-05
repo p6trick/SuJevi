@@ -1,0 +1,69 @@
+{
+  "model": "Laya",
+  "checkpoint": "/home1/irteam/data-vol1/SuJevi/models/huggingface/hub/models--convaiinnovations--laya/snapshots/7b928d828b7b0e022f929d9bd2e44165aa270148",
+  "checkpoint_revision": "7b928d828b7b0e022f929d9bd2e44165aa270148",
+  "runtime_version": "0.4.24",
+  "dtype": "bfloat16",
+  "quantized": false,
+  "backend": "eager",
+  "temperature": [
+    1.6369030475616455,
+    1.2514300346374512,
+    1.983399510383606
+  ],
+  "temperature_by_options": {
+    "choice:3-5": 1.7601518630981445,
+    "choice:6-10": 1.0000158548355103,
+    "score:3-5": 1.2514300346374512,
+    "noul:2": 1.983399510383606,
+    "choice:11+": 0.5,
+    "choice:2": 1.9063563346862793
+  },
+  "default_model_representation": "calibrated_probability_distribution",
+  "questions": {
+    "urgency": {
+      "question_type": "score",
+      "option_ids": [
+        "0",
+        "1",
+        "2"
+      ],
+      "raw_logits": {
+        "0": -2.421875,
+        "1": -2.28125,
+        "2": 3.890625
+      },
+      "raw_probability_distribution": {
+        "0": 0.0018064472824335098,
+        "1": 0.0020792081486433744,
+        "2": 0.9961143732070923
+      },
+      "calibrated_probability_distribution": {
+        "0": 0.006359559949487448,
+        "1": 0.0071158926002681255,
+        "2": 0.9865245819091797
+      },
+      "option_id_probability_mapping": [
+        {
+          "option_id": "0",
+          "probability": 0.006359559949487448
+        },
+        {
+          "option_id": "1",
+          "probability": 0.0071158926002681255
+        },
+        {
+          "option_id": "2",
+          "probability": 0.9865245819091797
+        }
+      ],
+      "temperature_bucket": "score:3-5",
+      "applied_temperature": 1.2514300346374512,
+      "default_model_representation": {
+        "0": 0.006359559949487448,
+        "1": 0.0071158926002681255,
+        "2": 0.9865245819091797
+      }
+    }
+  }
+}

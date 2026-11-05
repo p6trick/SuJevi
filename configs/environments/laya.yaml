@@ -1,0 +1,41 @@
+profile: laya
+isolation: per-model
+manager: conda-pip
+conda_environment: laya
+python: ">=3.12,<3.13"
+official_code_release: v0.4.24
+official_code_revision: 9d3fcc8924ef47b71510f77e19659f97ade0eec4
+
+direct_requirements:
+  torch: "==2.13.0"
+  transformers: "==5.17.0"
+  safetensors: "==0.8.0"
+  huggingface_hub: "==1.32.0"
+  numpy: "==2.5.3"
+  laya: "==0.4.24"
+  vegaml: ">=0.15.0"
+
+target_hardware:
+  gpu: NVIDIA H200
+  driver: 580.126.16
+  driver_reported_cuda: "13.0"
+  torch_cuda_runtime: "13.0"
+  note: The CUDA 13.0 PyTorch wheel is compatible with the installed R580 driver. Laya uses BF16 autocast on CUDA by default; no HTTP server, ONNX conversion, TileLang, quantization, or local CUDA toolkit is required for WS1.
+
+verified_environment:
+  verified_at: 2026-11-06
+  python: 3.12.16
+  torch: 2.13.0+cu130
+  torch_cuda_runtime: "13.0"
+  transformers: 5.17.0
+  safetensors: 0.8.0
+  huggingface_hub: 1.32.0
+  numpy: 2.5.3
+  laya: 0.4.24
+  vegaml: 0.15.0
+  gpu: NVIDIA H200
+  compute_capability: "9.0"
+  total_memory_gib: 139.8
+
+installation_status: success_user_verified
+status: success_user_verified

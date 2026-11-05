@@ -1,0 +1,15 @@
+{
+  "state": "A customer reports that their card was charged twice for the same order and requests a refund.",
+  "model": "Laya",
+  "questions": {
+    "route": {
+      "type": "choice",
+      "instructions": "Which department should handle this request?",
+      "criteria": {
+        "billing": "Invoices, charges, payments, duplicate transactions, and refunds.",
+        "shipping": "Delivery status, tracking, damaged shipments, and address changes.",
+        "returns": "Product returns or exchanges that are not primarily payment disputes."
+      }
+    }
+  }
+}
