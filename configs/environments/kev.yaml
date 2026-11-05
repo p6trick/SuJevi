@@ -1,0 +1,30 @@
+profile: kev
+isolation: per-model
+manager: uv
+python: ">=3.12,<3.14"
+official_code_release: kev-1.0
+official_code_revision: 6b719c3c3f367295f6ef336f4f751cf5ff970abc
+official_lockfile: uv.lock
+extras:
+  - serve
+
+direct_requirements:
+  accelerate: ">=1.15.0"
+  datasets: ">=3.0"
+  numpy: ">=2.5.3"
+  peft: ">=0.21"
+  pydantic: ">=2.9"
+  scikit-learn: ">=1.9.1"
+  torch: ">=2.6,<2.9"
+  transformers: ">=5.17,<6"
+  fastapi: ">=0.115"
+  typesafe-sdk: ">=0.6.0"
+  uvicorn: ">=0.30"
+
+target_hardware:
+  gpu: NVIDIA H200
+  driver: 580.126.16
+  driver_reported_cuda: "13.0"
+  note: The driver can run the CUDA runtime bundled with a supported PyTorch wheel; a local CUDA 13 toolkit is not required.
+
+status: awaiting_user_execution

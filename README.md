@@ -4,6 +4,11 @@ SuJevi is a local research workspace for comparing, evaluating and eventually
 fine-tuning OneJev and Jev-Omni. Both models run directly in Python; no HTTP
 server is required.
 
+WS1 expands this workspace into a model-by-model JEV pool. New models are
+validated in isolated environments before any unified environment is attempted.
+See [`docs/WS1_MODEL_STATUS.md`](docs/WS1_MODEL_STATUS.md) for the execution
+gates and current evidence.
+
 ## Repository layout
 
 ```text
