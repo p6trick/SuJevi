@@ -1,16 +1,17 @@
 # WS1 model status
 
-Last updated: 2026-11-05 (Asia/Seoul)
+Last updated: 2026-11-06 (Asia/Seoul)
 
 Status values are `Pending`, `Code Ready`, `Awaiting User Execution`,
-`Success`, `Failed`, and `Blocked`. A step is marked `Success` only from a
-user-provided execution result.
+`Success`, `Failed`, `Blocked`, and `Excluded`. A step is marked `Success`
+only from a user-provided execution result. `Excluded` records a deliberate
+model-pool decision and requires no environment or runtime execution.
 
 | Order | Model | Research | Environment | Download | Native inference | Noul/Choice/Score |
 | ---: | --- | --- | --- | --- | --- | --- | --- |
 | 1 | Kev-4B | Success | Success | Success | Success | Success |
 | 2 | Jeff-1.1-Qwen-4B | Success | Success | Success | Success | Success |
-| 3 | Decider | Pending | Pending | Pending | Pending | Pending |
+| 3 | Decider | Excluded | Excluded | Excluded | Excluded | Excluded |
 | 4 | Laya | Pending | Pending | Pending | Pending | Pending |
 | 5 | Bosun | Pending | Pending | Pending | Pending | Pending |
 
@@ -223,8 +224,23 @@ user-provided execution result.
   correctness check, not a performance benchmark.
 - The same correct optional-kernel fallback paths were used.
 
+## Decider exclusion record
+
+Decider was excluded from the Surrogate Model Pool by user decision on
+2026-11-06. No Decider environment, checkpoint, local runtime, smoke test, or
+output artifact is required for WS1.
+
+The research review found no accompanying paper or official citation entry.
+The latest `Mapika/decider-4b` v3 release also uses a deliberately low default
+Noul temperature (`T=0.05`) to avoid JevBench abstention, while its model card
+states that the resulting yes/no probabilities are not calibrated. Fitted
+temperatures are published for all three question types, so a normalized
+wrapper would be possible, but it would not represent the release default.
+The repository includes supervised training and data-building code, although
+the exact current v3 rank-64 LoRA stage and complete mixture-v2 recipe are not
+fully reproducible from a single public training entry point.
+
 ## Current gate
 
-Kev-4B and Jeff-1.1-Qwen-4B WS1 validation are complete. Preserve the Jeff
-environment profile, pinned source metadata, runtime, three smoke requests,
-six output artifacts, and status record in Git before starting Decider.
+Kev-4B and Jeff-1.1-Qwen-4B WS1 validation are complete. Decider is excluded.
+The next model research gate is Laya.
