@@ -1,0 +1,25 @@
+{
+  "model": "kev-latest",
+  "checkpoint": "/home1/irteam/data-vol1/SuJevi/models/huggingface/hub/models--jaredpalmer--kev-4b/snapshots/6cfce5c2fa4b4bd64026336ab649c5ca78857d52",
+  "base_model": "Qwen/Qwen3.5-4B-Base",
+  "base_revision": "1001bb4d826a52d1f399e183466143f4da7b741b",
+  "temperature": 2.406050072164233,
+  "dtype": "bfloat16",
+  "adapter_merged": false,
+  "probability_distributions": {
+    "billing_related": {
+      "false": 0.06633876264095306,
+      "true": 0.9336612224578857
+    },
+    "route": {
+      "billing": 0.7548326849937439,
+      "shipping": 0.11236905306577682,
+      "returns": 0.1327982395887375
+    },
+    "urgency": {
+      "0": 0.03680900111794472,
+      "1": 0.1693245768547058,
+      "2": 0.7938665151596069
+    }
+  }
+}

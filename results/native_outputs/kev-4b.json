@@ -1,0 +1,39 @@
+{
+  "model": "kev-latest",
+  "answers": {
+    "billing_related": {
+      "type": "noul",
+      "noul": 0.9337
+    },
+    "route": {
+      "type": "choice",
+      "choice": "billing",
+      "confidence": 0.6322,
+      "probabilities": {
+        "billing": 0.7548,
+        "shipping": 0.1124,
+        "returns": 0.1328
+      }
+    },
+    "urgency": {
+      "type": "score",
+      "score": 1.7571,
+      "legend": {
+        "0": "Can wait several days",
+        "1": "Should be handled this week",
+        "2": "Should be handled today"
+      },
+      "probabilities": {
+        "0": 0.0368,
+        "1": 0.1693,
+        "2": 0.7939
+      },
+      "confidence": 0.6356
+    }
+  },
+  "usage": {
+    "input_tokens": 127,
+    "output_tokens": 186
+  },
+  "latency_ms": 649.5
+}

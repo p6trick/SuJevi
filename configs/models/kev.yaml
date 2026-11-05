@@ -24,8 +24,9 @@ architecture:
   calibration_temperature: 2.41
 
 native_interface:
-  protocol: TypeSafe System One
-  endpoint: /v1/systemone
+  schema: TypeSafe System One
+  python_helpers: kev.api.SystemOneRequest, to_record, to_answers
+  optional_http_compatibility: /v1/systemone
   question_types:
     - noul
     - choice
@@ -37,14 +38,51 @@ native_interface:
     score: expected zero-based level, confidence, legend, and probability per level
 
 runtime:
-  implementation: official Kev source runtime
+  implementation: official Kev Checkpoint and DecisionModel Python runtime
   environment_profile: kev
+  transport: in-process
+  adapter_merged: false
+  quantized: false
   minimum_gpu_memory_gb: 16
   validated_context_tokens: 8192
   maximum_served_state_tokens: 65536
+
+fine_tuning:
+  supported: true
+  official_entrypoint: python -m kev.train
+  recommended_mode: LoRA delta fine-tuning with --init_from
+  full_fine_tuning_supported: true
+  current_stage_execution: not_executed
+
+local_artifacts:
+  huggingface_home: models/huggingface
+  checkpoint_snapshot: models/huggingface/hub/models--jaredpalmer--kev-4b/snapshots/6cfce5c2fa4b4bd64026336ab649c5ca78857d52
+  base_model_snapshot: models/huggingface/hub/models--Qwen--Qwen3.5-4B-Base/snapshots/1001bb4d826a52d1f399e183466143f4da7b741b
+  user_reported_cache_size: 8.9G
+
+validation:
+  verified_at: 2026-11-05
+  device: NVIDIA H200
+  dtype: bfloat16
+  adapter_merged: false
+  calibration_temperature: 2.406050072164233
+  input_tokens: 127
+  latency_ms_single_smoke_request: 649.5
+  component_types:
+    adapter: peft.peft_model.PeftModelForFeatureExtraction
+    backbone: transformers.models.qwen3_5.modeling_qwen3_5.Qwen3_5TextModel
+    decision_head: kev.model.PointerHead
+  question_types_verified:
+    - noul
+    - choice
+    - score
+  optimized_optional_kernels:
+    causal_conv1d: false
+    flash_linear_attention: false
+    fallback: correct reference PyTorch implementation
 
 license:
   checkpoint: Apache-2.0
   base_model: Apache-2.0
 
-status: awaiting_user_environment_execution
+status: success_user_verified

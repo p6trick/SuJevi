@@ -27,4 +27,14 @@ target_hardware:
   driver_reported_cuda: "13.0"
   note: The driver can run the CUDA runtime bundled with a supported PyTorch wheel; a local CUDA 13 toolkit is not required.
 
-status: awaiting_user_execution
+verified_environment:
+  verified_at: 2026-11-05
+  python: 3.12.16
+  torch: 2.8.0
+  torch_cuda_runtime: "12.8"
+  transformers: 5.17.0
+  gpu: NVIDIA H200
+  compute_capability: "9.0"
+  total_memory_gib: 139.8
+
+status: success_user_verified
