@@ -1,0 +1,15 @@
+{
+  "state": "A customer reports that their card was charged twice for the same order and requests a refund.",
+  "model": "Bosun-v3.1-1.7B",
+  "seed": 0,
+  "questions": {
+    "billing_related": {
+      "type": "noul",
+      "instructions": "Is this request related to billing?",
+      "criteria": {
+        "false": "The request is unrelated to invoices, charges, payments, or refunds.",
+        "true": "The request concerns an invoice, charge, payment, or refund."
+      }
+    }
+  }
+}

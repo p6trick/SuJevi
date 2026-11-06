@@ -1,0 +1,205 @@
+status: success_user_verified
+model_key: bosun
+display_name: Bosun v3.1 1.7B
+modality:
+  - text
+
+source:
+  paper: null
+  paper_status: No first-party Bosun methods paper was identified as of 2026-11-06. The official release article and checkpoint card are the primary method sources.
+  release_article: https://huggingface.co/blog/Hanno-Labs/decisionbench-bosun-v3-1
+  code_repository: null
+  code_location: Remote-code Python files are versioned inside the checkpoint repository.
+  checkpoint_repository: Hanno-Labs/bosun-v3.1-1.7b
+  checkpoint_revision: 1d8dc82a20e4a32ed60927a47272d6efff48eed2
+  base_model_repository: Qwen/Qwen3-1.7B
+  base_model_revision: 70d244cc86ccca08cf5af4e1e306ecf908b1ad5e
+
+architecture:
+  family: causal language model with learned decision-token readout
+  backbone: Qwen3-1.7B
+  base_parameters: 2031739904
+  adapter: PEFT LoRA
+  lora_rank: 16
+  lora_alpha: 32
+  decision_tokens: 256
+  maximum_runtime_choices: 255
+  null_slots: 1
+  quantized: false
+
+native_interface:
+  implementation: checkpoint BosunForDecision via AutoModelForCausalLM
+  loading: trust_remote_code
+  transport: in-process
+  optional_http_server_required: false
+  methods:
+    - forward
+    - decision_logits
+    - predict
+  question_types:
+    - noul
+    - choice
+    - score
+  option_order: caller candidate order after stable presented-slot mapping
+  probability_rule: masked softmax over presented decision-token logits
+
+model_representation:
+  default: calibrated_probability_distribution
+  preserved_fields:
+    - raw_logits
+    - raw_probability_distribution
+    - calibrated_probability_distribution
+    - option_id_probability_mapping
+    - presented_slot_mapping
+  calibration:
+    method: identity_after_official_masked_softmax
+    posthoc_temperature: null
+    note: The release publishes no post-hoc temperature or separate calibration transform. For the common WS1 schema, calibrated_probability_distribution is therefore identical to the official masked-softmax distribution. Calibration must be measured or refit on the routing dataset rather than inferred from the model-card adjective.
+
+fine_tuning:
+  official_training_script: false
+  training_data_released: false
+  published_recipe:
+    training_rows: 130000
+    epochs_completed: 3
+    selected_epoch: 2
+    batch_size: 32
+    gradient_accumulation_steps: 2
+    lora_rank: 16
+    lora_alpha: 32
+    seed: 20260918
+    objective: distribution target over valid decision slots
+  technical_reimplementation_possible: true
+  exact_reproduction_possible_from_public_artifacts: false
+  reason: The adapter, decision-token rows, loader, and summary recipe are public, but the full training corpus and official training entry point are not.
+  current_stage_execution: not_run
+
+local_artifacts:
+  huggingface_home: models/huggingface
+  checkpoint_snapshot: models/huggingface/hub/models--Hanno-Labs--bosun-v3.1-1.7b/snapshots/1d8dc82a20e4a32ed60927a47272d6efff48eed2
+  base_snapshot: models/huggingface/hub/models--Qwen--Qwen3-1.7B/snapshots/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e
+  required_checkpoint_components:
+    - adapter/
+    - tokenizer/
+    - configuration_bosun.py
+    - modeling_bosun.py
+    - decision_embeddings.safetensors
+    - serving.json
+    - manifest.json
+
+download_validation:
+  verified_at: 2026-11-06
+  bosun_snapshot_revision: 1d8dc82a20e4a32ed60927a47272d6efff48eed2
+  base_snapshot_revision: 70d244cc86ccca08cf5af4e1e306ecf908b1ad5e
+  required_files: all_present
+  adapter_model_safetensors_bytes: 69782384
+  decision_embeddings_safetensors_bytes: 2097336
+  base_model_shard_bytes:
+    - 3441185608
+    - 622329984
+  user_reported_huggingface_cache_size: 23G
+
+validation:
+  status: success_user_verified
+  order:
+    - noul
+    - choice
+    - score
+  last_verified_at: 2026-11-06
+  device: NVIDIA H200
+  dtype: bfloat16
+  quantized: false
+  adapter_merged: false
+  component_types:
+    official_model: transformers_modules._1d8dc82a20e4a32ed60927a47272d6efff48eed2.modeling_bosun.BosunForDecision
+    adapter_model: peft.peft_model.PeftModelForCausalLM
+    base_model: transformers.models.qwen3.modeling_qwen3.Qwen3ForCausalLM
+  question_types_verified:
+    - noul
+    - choice
+    - score
+  noul:
+    input_tokens: 146
+    latency_ms_first_validated_request: 1489.0
+    option_ids:
+      - "false"
+      - "true"
+    candidate_to_slot:
+      "false": 0
+      "true": 1
+    raw_logits:
+      "false": 0.76171875
+      "true": 2.484375
+    raw_probability_distribution:
+      "false": 0.15152934193611145
+      "true": 0.8484706878662109
+    calibrated_probability_distribution:
+      "false": 0.15152934193611145
+      "true": 0.8484706878662109
+    native_noul: 0.8484706878662109
+    native_noul_matches_calibrated_true: true
+    calibration_method: identity
+    distribution_normalized_within_float32_tolerance: true
+  score:
+    input_tokens: 154
+    latency_ms_validated_request: 808.8
+    option_ids:
+      - "0"
+      - "1"
+      - "2"
+    candidate_to_slot:
+      "2": 0
+      "1": 1
+      "0": 2
+    raw_logits:
+      "0": -1.359375
+      "1": -0.310546875
+      "2": 3.546875
+    raw_probability_distribution:
+      "0": 0.007194968406111002
+      "1": 0.0205366313457489
+      "2": 0.9722684621810913
+    calibrated_probability_distribution:
+      "0": 0.007194968406111002
+      "1": 0.0205366313457489
+      "2": 0.9722684621810913
+    full_precision_expected_score: 1.9650735557079315
+    native_score: 1.9650735557079315
+    native_score_matches_calibrated_expectation: true
+    slot_mapping_restored_to_caller_order: true
+    calibration_method: identity
+    distribution_normalized_within_float32_tolerance: true
+  choice:
+    input_tokens: 162
+    latency_ms_validated_request: 810.2
+    selected: billing
+    option_ids:
+      - billing
+      - shipping
+      - returns
+    candidate_to_slot:
+      shipping: 0
+      returns: 1
+      billing: 2
+    raw_logits:
+      billing: 4.9375
+      shipping: -3.609375
+      returns: -0.068359375
+    raw_probability_distribution:
+      billing: 0.9931544065475464
+      shipping: 0.00019282178254798055
+      returns: 0.006652725860476494
+    calibrated_probability_distribution:
+      billing: 0.9931544065475464
+      shipping: 0.00019282178254798055
+      returns: 0.006652725860476494
+    native_choice_matches_calibrated_argmax: true
+    slot_mapping_restored_to_caller_order: true
+    calibration_method: identity
+    distribution_normalized_within_float32_tolerance: true
+
+license:
+  checkpoint: Apache-2.0
+  remote_code: Apache-2.0
+  base_model: Apache-2.0
+  commercial_use: permitted_subject_to_license

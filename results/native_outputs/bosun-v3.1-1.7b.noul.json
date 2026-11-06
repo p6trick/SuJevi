@@ -1,0 +1,14 @@
+{
+  "model": "Bosun-v3.1-1.7B",
+  "answers": {
+    "billing_related": {
+      "type": "noul",
+      "noul": 0.8484706878662109
+    }
+  },
+  "usage": {
+    "input_tokens": 146,
+    "output_tokens": 0
+  },
+  "latency_ms": 1489.0
+}

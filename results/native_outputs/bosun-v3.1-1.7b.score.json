@@ -1,0 +1,24 @@
+{
+  "model": "Bosun-v3.1-1.7B",
+  "answers": {
+    "urgency": {
+      "type": "score",
+      "score": 1.9650735557079315,
+      "legend": {
+        "0": "Can wait several days.",
+        "1": "Should be handled this week.",
+        "2": "Should be handled today."
+      },
+      "probabilities": {
+        "0": 0.007194968406111002,
+        "1": 0.0205366313457489,
+        "2": 0.9722684621810913
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 154,
+    "output_tokens": 0
+  },
+  "latency_ms": 808.8
+}

@@ -36,3 +36,20 @@ The user-verified Laya artifacts currently are:
 - `laya.noul.json` and `laya.noul.representations.json`; and
 - `laya.choice.json` and `laya.choice.representations.json`; and
 - `laya.score.json` and `laya.score.representations.json`.
+
+Bosun smoke tests call the checkpoint-provided `BosunForDecision.predict`
+method directly. Each representation artifact retains caller-aligned raw
+logits, official masked-softmax probabilities, an identity calibrated field,
+the candidate-to-slot map, slot-order logits/probabilities, decision-token
+IDs, and option-ID mappings. The checkpoint manifest is verified before the
+reviewed remote code is imported. No Bosun output is considered successful
+until the corresponding user execution is reviewed.
+
+The user-verified Bosun artifacts currently are:
+
+- `bosun-v3.1-1.7b.noul.json` and
+  `bosun-v3.1-1.7b.noul.representations.json`; and
+- `bosun-v3.1-1.7b.choice.json` and
+  `bosun-v3.1-1.7b.choice.representations.json`; and
+- `bosun-v3.1-1.7b.score.json` and
+  `bosun-v3.1-1.7b.score.representations.json`.

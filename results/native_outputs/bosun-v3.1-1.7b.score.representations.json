@@ -1,0 +1,103 @@
+{
+  "model": "Bosun-v3.1-1.7B",
+  "checkpoint": "/home1/irteam/data-vol1/SuJevi/models/huggingface/hub/models--Hanno-Labs--bosun-v3.1-1.7b/snapshots/1d8dc82a20e4a32ed60927a47272d6efff48eed2",
+  "checkpoint_revision": "1d8dc82a20e4a32ed60927a47272d6efff48eed2",
+  "base_checkpoint": "/home1/irteam/data-vol1/SuJevi/models/huggingface/hub/models--Qwen--Qwen3-1.7B/snapshots/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "base_revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "dtype": "bfloat16",
+  "quantized": false,
+  "adapter_merged": false,
+  "remote_code": true,
+  "decision_token_count": 256,
+  "decision_token_assignment": "presented_slot",
+  "probability_rule": "masked_softmax_over_presented_slots",
+  "calibration_method": "identity",
+  "default_model_representation": "calibrated_probability_distribution",
+  "questions": {
+    "urgency": {
+      "question_type": "score",
+      "option_ids": [
+        "0",
+        "1",
+        "2"
+      ],
+      "raw_logits": {
+        "0": -1.359375,
+        "1": -0.310546875,
+        "2": 3.546875
+      },
+      "raw_probability_distribution": {
+        "0": 0.007194968406111002,
+        "1": 0.0205366313457489,
+        "2": 0.9722684621810913
+      },
+      "calibrated_probability_distribution": {
+        "0": 0.007194968406111002,
+        "1": 0.0205366313457489,
+        "2": 0.9722684621810913
+      },
+      "option_id_probability_mapping": [
+        {
+          "option_id": "0",
+          "probability": 0.007194968406111002
+        },
+        {
+          "option_id": "1",
+          "probability": 0.0205366313457489
+        },
+        {
+          "option_id": "2",
+          "probability": 0.9722684621810913
+        }
+      ],
+      "presented_slot_mapping": [
+        {
+          "option_id": "0",
+          "presented_slot": 2,
+          "decision_token": "<|decision_002|>",
+          "raw_logit": -1.359375,
+          "probability": 0.007194968406111002
+        },
+        {
+          "option_id": "1",
+          "presented_slot": 1,
+          "decision_token": "<|decision_001|>",
+          "raw_logit": -0.310546875,
+          "probability": 0.0205366313457489
+        },
+        {
+          "option_id": "2",
+          "presented_slot": 0,
+          "decision_token": "<|decision_000|>",
+          "raw_logit": 3.546875,
+          "probability": 0.9722684621810913
+        }
+      ],
+      "candidate_to_slot": {
+        "2": 0,
+        "1": 1,
+        "0": 2
+      },
+      "slot_logits": [
+        3.546875,
+        -0.310546875,
+        -1.359375
+      ],
+      "slot_probability_distribution": [
+        0.9722684621810913,
+        0.0205366313457489,
+        0.007194968406111002
+      ],
+      "prompt_schema": "bosun-decision-prompt-v3-stable-slots",
+      "probability_rule": "masked_softmax_over_presented_slots",
+      "calibration_method": "identity",
+      "seed": 0,
+      "row_id": "urgency",
+      "default_model_representation": {
+        "0": 0.007194968406111002,
+        "1": 0.0205366313457489,
+        "2": 0.9722684621810913
+      }
+    }
+  }
+}

@@ -50,6 +50,16 @@ LAYA_REQUIREMENTS = {
     "vegaml": ">=0.15.0",
 }
 
+BOSUN_REQUIREMENTS = {
+    "torch": "==2.13.0",
+    "transformers": "==4.57.0",
+    "peft": "==0.21.0",
+    "safetensors": "==0.8.0",
+    "huggingface_hub": "==0.36.0",
+    "accelerate": "==1.15.0",
+    "numpy": "==2.5.3",
+}
+
 
 def package_report(requirements: dict[str, str]) -> tuple[dict[str, Any], list[str]]:
     try:
@@ -228,9 +238,38 @@ def check_laya() -> tuple[dict[str, Any], list[str]]:
     )
 
 
+def check_bosun() -> tuple[dict[str, Any], list[str]]:
+    failures: list[str] = []
+    python_ok = (3, 12) <= sys.version_info[:2] < (3, 13)
+    if not python_ok:
+        failures.append("Bosun profile requires Python >=3.12,<3.13")
+
+    packages, package_failures = package_report(BOSUN_REQUIREMENTS)
+    failures.extend(package_failures)
+
+    cuda, cuda_failures = cuda_report()
+    failures.extend(cuda_failures)
+
+    return (
+        {
+            "profile": "bosun",
+            "python": {
+                "version": platform.python_version(),
+                "executable": sys.executable,
+                "required": ">=3.12,<3.13",
+                "ok": python_ok,
+            },
+            "platform": platform.platform(),
+            "packages": packages,
+            "cuda": cuda,
+        },
+        failures,
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--profile", choices=("kev", "jeff", "laya"), required=True)
+    parser.add_argument("--profile", choices=("kev", "jeff", "laya", "bosun"), required=True)
     args = parser.parse_args()
 
     if args.profile == "kev":
@@ -239,6 +278,8 @@ def main() -> int:
         report, failures = check_jeff()
     elif args.profile == "laya":
         report, failures = check_laya()
+    elif args.profile == "bosun":
+        report, failures = check_bosun()
     else:  # pragma: no cover - argparse prevents this branch
         raise AssertionError(args.profile)
 

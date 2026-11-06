@@ -1,0 +1,38 @@
+profile: bosun
+isolation: per-model
+manager: conda-pip
+conda_environment: bosun
+python: ">=3.12,<3.13"
+
+direct_requirements:
+  torch: "==2.13.0"
+  transformers: "==4.57.0"
+  peft: "==0.21.0"
+  safetensors: "==0.8.0"
+  huggingface_hub: "==0.36.0"
+  accelerate: "==1.15.0"
+  numpy: "==2.5.3"
+
+target_hardware:
+  gpu: NVIDIA H200
+  driver: 580.126.16
+  driver_reported_cuda: "13.0"
+  torch_cuda_runtime: "13.0"
+  note: Bosun will use the original Qwen BF16 base, PEFT adapter, and learned decision-token rows through local Transformers Python loading. No HTTP server, GGUF conversion, or quantization is part of WS1.
+
+verified_environment:
+  verified_at: 2026-11-06
+  python: 3.12.16
+  torch: 2.13.0+cu130
+  torch_cuda_runtime: "13.0"
+  transformers: 4.57.0
+  peft: 0.21.0
+  safetensors: 0.8.0
+  huggingface_hub: 0.36.0
+  accelerate: 1.15.0
+  numpy: 2.5.3
+  gpu: NVIDIA H200
+  compute_capability: "9.0"
+  total_memory_gib: 139.8
+
+installation_status: success_user_verified

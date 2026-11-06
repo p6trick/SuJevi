@@ -1,0 +1,16 @@
+{
+  "state": "A customer reports that their card was charged twice for the same order and requests a refund.",
+  "model": "Bosun-v3.1-1.7B",
+  "seed": 0,
+  "questions": {
+    "route": {
+      "type": "choice",
+      "instructions": "Which department should handle this request?",
+      "criteria": {
+        "billing": "Invoices, charges, payments, duplicate transactions, and refunds.",
+        "shipping": "Delivery status, tracking, damaged shipments, and address changes.",
+        "returns": "Product returns or exchanges that are not primarily payment disputes."
+      }
+    }
+  }
+}

@@ -13,7 +13,7 @@ model-pool decision and requires no environment or runtime execution.
 | 2 | Jeff-1.1-Qwen-4B | Success | Success | Success | Success | Success |
 | 3 | Decider | Excluded | Excluded | Excluded | Excluded | Excluded |
 | 4 | Laya | Success | Success | Success | Success | Success |
-| 5 | Bosun | Pending | Pending | Pending | Pending | Pending |
+| 5 | Bosun | Success | Success | Success | Success | Success |
 
 ## Kev-4B research record
 
@@ -327,10 +327,160 @@ fully reproducible from a single public training entry point.
 - The full-precision expected score is `1.9801650564186275`; native score
   `1.9802` matches it rounded to four decimals.
 
+## Bosun v3.1 1.7B research and environment record
+
+- Checkpoint: `Hanno-Labs/bosun-v3.1-1.7b`, pinned to
+  `1d8dc82a20e4a32ed60927a47272d6efff48eed2`.
+- Base: `Qwen/Qwen3-1.7B`, pinned to
+  `70d244cc86ccca08cf5af4e1e306ecf908b1ad5e`.
+- Architecture: ordinary Qwen3 causal base, rank-16 LoRA, and 256 learned
+  decision-token rows; up to 255 candidates plus one null slot.
+- Runtime: checkpoint-provided `BosunForDecision` loaded through local
+  Transformers Python with reviewed remote code. `decision_logits()` exposes
+  raw slot logits, and `predict()` supports Noul, Choice, and Score without an
+  HTTP service.
+- Probability rule: masked softmax over only the presented decision slots,
+  followed by mapping back to caller candidate order.
+- Calibration boundary: the release publishes no post-hoc temperature. The
+  common-schema calibrated distribution is therefore identical to the
+  official masked-softmax distribution until routing-domain calibration is
+  fitted and validated.
+- Fine-tuning: the release records the LoRA and distribution-target recipe but
+  provides neither an official training entry point nor the full 130,000-row
+  training corpus. Reimplementation is technically possible; exact public
+  reproduction is not.
+- Paper: no first-party Bosun methods paper was identified as of 2026-11-06.
+  The official release article and model card are the primary method sources.
+- License: Apache-2.0 for the checkpoint remote code and Qwen base.
+- Environment code is ready for user execution. No environment installation,
+  model download, model loading, or GPU inference was executed by Codex.
+
+### Environment attempt history
+
+- The first user-executed environment attempt on 2026-11-06 successfully
+  created Python 3.12.16 and installed PyTorch 2.13.0+cu130.
+- PyTorch detected CUDA 13.0 and the NVIDIA H200 correctly, but the remaining
+  installation was rejected before changing the environment: Transformers
+  4.57.0 requires `huggingface-hub>=0.34.0,<1.0`, while the initial profile
+  incorrectly pinned Hub 1.32.0.
+- The profile now pins `huggingface_hub==0.36.0` and explicitly installs NumPy
+  2.5.3. The existing `bosun` environment can be repaired in place; recreation
+  and PyTorch reinstallation are not required.
+
+### User-verified environment
+
+- Verified on 2026-11-06 from the user-provided retry report.
+- Python 3.12.16 in `/opt/conda/envs/bosun/bin/python`.
+- PyTorch 2.13.0+cu130 detected CUDA 13.0 and one NVIDIA H200 with compute
+  capability 9.0 and 139.8 GiB device memory.
+- Transformers 4.57.0, PEFT 0.21.0, Safetensors 0.8.0, Hugging Face Hub
+  0.36.0, Accelerate 1.15.0, and NumPy 2.5.3 all matched the profile. The
+  environment checker returned `ok: true` with no failures.
+- The `pip check` messages about `sujevi 0.1.0` came from the repository's
+  `src/sujevi.egg-info`, exposed by an already exported `PYTHONPATH`. They do
+  not indicate that the Bosun environment installed the monolithic SuJevi
+  dependency set. A clean check must temporarily remove `PYTHONPATH`.
+
+### User-verified checkpoint download
+
+- Verified on 2026-11-06 from the user-provided downloader output and file
+  listings.
+- Bosun resolved to the pinned snapshot
+  `1d8dc82a20e4a32ed60927a47272d6efff48eed2`; Qwen3-1.7B resolved to
+  `70d244cc86ccca08cf5af4e1e306ecf908b1ad5e`.
+- The Bosun adapter (`69,782,384` bytes), learned decision embeddings
+  (`2,097,336` bytes), tokenizer, model/configuration Python files,
+  `serving.json`, and content-addressed `manifest.json` were all present.
+- The Qwen base contained its index and two Safetensors shards of
+  `3,441,185,608` and `622,329,984` bytes.
+- The shared project Hugging Face cache was 23 GiB. The small per-snapshot
+  `du` values are expected because Hub snapshots contain symlinks into the
+  shared blob store.
+
+### Local runtime code
+
+- `BosunLocalRuntime` validates both pinned revisions and verifies every file
+  hash declared by the official Bosun manifest before remote-code import.
+- The official `BosunForDecision` is loaded locally in BF16 with the original
+  Qwen weights, unmerged PEFT adapter, learned input/output decision rows,
+  `local_files_only=True`, and no HTTP server or quantization.
+- The wrapper calls official `predict()` and preserves raw caller-aligned
+  logits, masked-softmax probabilities, the identity calibrated field,
+  candidate-to-slot mapping, slot-order logits/probabilities, decision-token
+  IDs, and ordered option mappings.
+- Noul, Choice, and Score requests and the runner are code-ready. No model
+  loading or GPU inference was executed by Codex.
+
+### Noul attempt history
+
+- The first user-executed Noul attempt on 2026-11-06 passed the clean
+  dependency check and stopped during pre-load metadata validation.
+- The WS1 validator incorrectly looked for `base_revision` in both files;
+  official `config.json` uses `base_model_revision`, while `serving.json` uses
+  `base_revision`. The validator now checks each authoritative key correctly.
+- No remote code, model weights, CUDA inference, or output artifact was reached
+  during this attempt.
+
+### User-verified Noul inference
+
+- Verified on 2026-11-06 from the user-provided native response,
+  representation artifact, and execution log.
+- Loaded the pinned Bosun package and Qwen base locally in BF16 on the NVIDIA
+  H200, without quantization and with the PEFT adapter unmerged.
+- Exposed components: official `BosunForDecision`,
+  `peft.peft_model.PeftModelForCausalLM`, and
+  `transformers.models.qwen3.modeling_qwen3.Qwen3ForCausalLM`.
+- Ordered option IDs `[false, true]` mapped to presented slots `[0, 1]` and
+  decision tokens `<|decision_000|>`, `<|decision_001|>`.
+- Raw logits were `[0.76171875, 2.484375]`. The official masked-softmax
+  distribution was `[0.15152934193611145, 0.8484706878662109]`; its sum differs
+  from one by about `3.0e-8`, within float32 conversion error.
+- Native Noul exactly equals P(true), and the identity calibrated field,
+  ordered option mapping, and default representation preserve the same values.
+- The request used 146 input tokens and reported 1489.0 ms. This is a
+  correctness check, not a performance benchmark.
+- The `torch_dtype` deprecation warning did not affect loading or outputs. The
+  runner now uses the equivalent `dtype` keyword for later tests.
+
+### User-verified Choice inference
+
+- Verified on 2026-11-06 from the locally stored native response,
+  representation artifact, and execution log after the user reported success.
+- Caller option order was `[billing, shipping, returns]`, while deterministic
+  presentation mapped those IDs to slots `[2, 0, 1]` and decision tokens
+  `[decision_002, decision_000, decision_001]`.
+- The wrapper correctly restored raw logits to caller order: billing `4.9375`,
+  shipping `-3.609375`, returns `-0.068359375`.
+- The official distribution in caller order was billing `0.9931544065`,
+  shipping `0.0001928218`, returns `0.0066527259`. Its sum differs from one by
+  about `4.6e-8`, within float32 conversion error.
+- Native choice and distribution argmax were both `billing`. The identity
+  calibrated field, option mappings, and default representation preserved the
+  same values.
+- The request used 162 input tokens and reported 810.2 ms. This is a
+  correctness check, not a performance benchmark.
+
+### User-verified Score inference
+
+- Verified on 2026-11-06 from the user-provided native response,
+  representation artifact, and execution log.
+- Ordered level IDs `[0, 1, 2]` mapped to presented slots `[2, 1, 0]` and were
+  correctly restored to caller order.
+- Caller-ordered raw logits were `[-1.359375, -0.310546875, 3.546875]`.
+- The official distribution was `[0.0071949684, 0.0205366313,
+  0.9722684622]`; its sum differs from one by about `6.2e-8`, within float32
+  conversion error.
+- The native score `1.9650735557079315` exactly equals the full-precision
+  probability-weighted expected score. The identity calibrated field and
+  option/slot mappings preserve the same distribution.
+- The request used 154 input tokens and reported 808.8 ms. This is a
+  correctness check, not a performance benchmark.
+
 ## Current gate
 
-Kev-4B and Jeff-1.1-Qwen-4B WS1 validation are complete. Decider is excluded.
-Laya research, environment, checkpoint download, local eager runtime, and all
-three Noul/Choice/Score smoke tests are complete. Preserve the profiles,
-runtime, requests, six output artifacts, documentation, and status record in
-Git before starting Bosun research.
+Kev-4B, Jeff-1.1-Qwen-4B, and Laya WS1 validation are complete. Decider is
+excluded. Bosun research and isolated environment validation are complete. The
+Bosun research, isolated environment, pinned downloads, local runtime, manifest
+validation, and all Noul/Choice/Score smoke tests are complete. Preserve the
+profiles, runtime, requests, six output artifacts, documentation, and status
+record in Git before selecting the next WS1 model.

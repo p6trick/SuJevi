@@ -1,0 +1,84 @@
+{
+  "model": "Bosun-v3.1-1.7B",
+  "checkpoint": "/home1/irteam/data-vol1/SuJevi/models/huggingface/hub/models--Hanno-Labs--bosun-v3.1-1.7b/snapshots/1d8dc82a20e4a32ed60927a47272d6efff48eed2",
+  "checkpoint_revision": "1d8dc82a20e4a32ed60927a47272d6efff48eed2",
+  "base_checkpoint": "/home1/irteam/data-vol1/SuJevi/models/huggingface/hub/models--Qwen--Qwen3-1.7B/snapshots/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "base_revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "dtype": "bfloat16",
+  "quantized": false,
+  "adapter_merged": false,
+  "remote_code": true,
+  "decision_token_count": 256,
+  "decision_token_assignment": "presented_slot",
+  "probability_rule": "masked_softmax_over_presented_slots",
+  "calibration_method": "identity",
+  "default_model_representation": "calibrated_probability_distribution",
+  "questions": {
+    "billing_related": {
+      "question_type": "noul",
+      "option_ids": [
+        "false",
+        "true"
+      ],
+      "raw_logits": {
+        "false": 0.76171875,
+        "true": 2.484375
+      },
+      "raw_probability_distribution": {
+        "false": 0.15152934193611145,
+        "true": 0.8484706878662109
+      },
+      "calibrated_probability_distribution": {
+        "false": 0.15152934193611145,
+        "true": 0.8484706878662109
+      },
+      "option_id_probability_mapping": [
+        {
+          "option_id": "false",
+          "probability": 0.15152934193611145
+        },
+        {
+          "option_id": "true",
+          "probability": 0.8484706878662109
+        }
+      ],
+      "presented_slot_mapping": [
+        {
+          "option_id": "false",
+          "presented_slot": 0,
+          "decision_token": "<|decision_000|>",
+          "raw_logit": 0.76171875,
+          "probability": 0.15152934193611145
+        },
+        {
+          "option_id": "true",
+          "presented_slot": 1,
+          "decision_token": "<|decision_001|>",
+          "raw_logit": 2.484375,
+          "probability": 0.8484706878662109
+        }
+      ],
+      "candidate_to_slot": {
+        "false": 0,
+        "true": 1
+      },
+      "slot_logits": [
+        0.76171875,
+        2.484375
+      ],
+      "slot_probability_distribution": [
+        0.15152934193611145,
+        0.8484706878662109
+      ],
+      "prompt_schema": "bosun-decision-prompt-v3-stable-slots",
+      "probability_rule": "masked_softmax_over_presented_slots",
+      "calibration_method": "identity",
+      "seed": 0,
+      "row_id": "billing_related",
+      "default_model_representation": {
+        "false": 0.15152934193611145,
+        "true": 0.8484706878662109
+      }
+    }
+  }
+}

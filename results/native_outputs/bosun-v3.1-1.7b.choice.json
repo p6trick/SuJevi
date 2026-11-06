@@ -1,0 +1,19 @@
+{
+  "model": "Bosun-v3.1-1.7B",
+  "answers": {
+    "route": {
+      "type": "choice",
+      "choice": "billing",
+      "probabilities": {
+        "billing": 0.9931544065475464,
+        "shipping": 0.00019282178254798055,
+        "returns": 0.006652725860476494
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 162,
+    "output_tokens": 0
+  },
+  "latency_ms": 810.2
+}

@@ -11,6 +11,9 @@ from typing import Any
 
 
 __all__ = [
+    "BosunLocalRuntime",
+    "BosunPrediction",
+    "BosunQuestionRepresentation",
     "JeffLocalRuntime",
     "JeffPrediction",
     "JeffQuestionRepresentation",
@@ -26,6 +29,22 @@ __all__ = [
 
 def __getattr__(name: str) -> Any:
     if name in {
+        "BosunLocalRuntime",
+        "BosunPrediction",
+        "BosunQuestionRepresentation",
+    }:
+        from .bosun_local import (
+            BosunLocalRuntime,
+            BosunPrediction,
+            BosunQuestionRepresentation,
+        )
+
+        exports = {
+            "BosunLocalRuntime": BosunLocalRuntime,
+            "BosunPrediction": BosunPrediction,
+            "BosunQuestionRepresentation": BosunQuestionRepresentation,
+        }
+    elif name in {
         "JeffLocalRuntime",
         "JeffPrediction",
         "JeffQuestionRepresentation",
