@@ -53,3 +53,12 @@ The user-verified Bosun artifacts currently are:
   `bosun-v3.1-1.7b.choice.representations.json`; and
 - `bosun-v3.1-1.7b.score.json` and
   `bosun-v3.1-1.7b.score.representations.json`.
+
+Jeva's user-verified Noul, Choice, and Score artifacts use the names
+`jeva-4b.<type>.json` and `jeva-4b.<type>.representations.json`. Each
+representation preserves pre-temperature scores and softmax, learned
+temperature, decision logits, native probabilities, and option mappings.
+No post-hoc calibration transform has been established: the calibrated
+field is null and the native distribution is the current default. The
+separately stored head null probability is not included in the closed-set
+Noul, Choice, or Score distributions used in these tests.

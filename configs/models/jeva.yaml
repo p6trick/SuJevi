@@ -1,0 +1,42 @@
+model_key: jeva
+display_name: Jeva-4B
+status: success_user_verified
+source:
+  paper: https://arxiv.org/abs/2610.18773
+  code_repository: https://github.com/LIQIIIII/Jeva
+  code_revision: e2104e0720100f979f2cdd456a1cbbee96da0abd
+  checkpoint_repository: LIQIIIII/Jeva-4B
+  checkpoint_revision: 25ca454b3522615a243c06703ba410ecf152a128
+architecture:
+  backbone: Qwen3.5-4B
+  decision: matrix decision stack with reusable option representations and coverage head
+  adapter: LoRA, unmerged
+  quantized: false
+native_interface:
+  implementation: jeva.Jeva.from_pretrained and system_one
+  transport: in-process
+  question_types: [noul, choice, score]
+  tested_choice_allow_null: false
+representation:
+  default: native_probability_distribution
+  raw_logits: decision head scores before learned temperature
+  raw_probability_distribution: softmax of raw scores
+  decision_logits: scores divided by learned decision temperature
+  native_probability_distribution: softmax of decision logits
+  learned_decision_temperature: 0.11049280315637589
+  posthoc_calibration: unverified
+  calibrated_probability_distribution: null
+  note: Native probabilities are not asserted to be calibrated on the routing dataset.
+fine_tuning:
+  official_training_script: jeva-finetune
+  supported_modes: [head, lora]
+  executed: false
+validation:
+  device: NVIDIA H200
+  dtype: bfloat16
+  question_types: [noul, choice, score]
+  score_expected_value: 1.5723706483840942
+  cache: none
+license:
+  code: Apache-2.0
+  checkpoint: Apache-2.0

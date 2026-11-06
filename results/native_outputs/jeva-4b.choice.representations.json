@@ -1,0 +1,65 @@
+{
+  "model": "Jeva-4B",
+  "checkpoint": "/home1/irteam/data-vol1/SuJevi/models/huggingface/hub/models--LIQIIIII--Jeva-4B/snapshots/25ca454b3522615a243c06703ba410ecf152a128",
+  "checkpoint_revision": "25ca454b3522615a243c06703ba410ecf152a128",
+  "dtype": "bfloat16",
+  "quantized": false,
+  "adapter_merged": false,
+  "cache": "none",
+  "default_model_representation": "native_probability_distribution",
+  "questions": {
+    "route": {
+      "question_type": "choice",
+      "option_ids": [
+        "billing",
+        "shipping",
+        "returns"
+      ],
+      "raw_logits": {
+        "billing": -0.5114260315895081,
+        "shipping": -1.1017053127288818,
+        "returns": -0.8786929845809937
+      },
+      "raw_probability_distribution": {
+        "billing": 0.4450780153274536,
+        "shipping": 0.24665001034736633,
+        "returns": 0.30827203392982483
+      },
+      "decision_logits": {
+        "billing": -4.628591537475586,
+        "shipping": -9.970832824707031,
+        "returns": -7.95249080657959
+      },
+      "native_probability_distribution": {
+        "billing": 0.9608018398284912,
+        "shipping": 0.004597565624862909,
+        "returns": 0.034600529819726944
+      },
+      "calibrated_probability_distribution": null,
+      "calibration_status": "unverified_no_posthoc_calibration_identified",
+      "learned_decision_temperature": 0.11049280315637589,
+      "option_id_probability_mapping": [
+        {
+          "option_id": "billing",
+          "probability": 0.9608018398284912
+        },
+        {
+          "option_id": "shipping",
+          "probability": 0.004597565624862909
+        },
+        {
+          "option_id": "returns",
+          "probability": 0.034600529819726944
+        }
+      ],
+      "native_head_null_probability": 0.9751968383789062,
+      "coverage_logit": -3.6716697216033936,
+      "null_included_in_distribution": false,
+      "default_model_representation": {
+        "billing": 0.9608018398284912,
+        "shipping": 0.004597565624862909,
+        "returns": 0.034600529819726944
+      }
+    }
+  }
+}

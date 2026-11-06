@@ -1,0 +1,44 @@
+{
+  "answers": {
+    "billing_related": {
+      "kind": "noul",
+      "probabilities": {
+        "false": 0.1121203824877739,
+        "true": 0.8878796100616455
+      },
+      "conditional_probabilities": {
+        "false": 0.1121203824877739,
+        "true": 0.8878796100616455
+      },
+      "null_probability": 0.0,
+      "choice": null,
+      "noul": 0.8878796100616455,
+      "score": null,
+      "confidence": 0.8878796100616455,
+      "candidate_probabilities": [
+        0.1121203824877739,
+        0.8878796100616455
+      ],
+      "usage": {
+        "input_tokens": 49,
+        "requested_input_tokens": 49,
+        "encoded_state_tokens": 37,
+        "encoded_option_tokens": 12,
+        "cached_option_tokens": 0,
+        "output_tokens": 0,
+        "truncated_tokens": 0
+      },
+      "latency_ms": 56221.08217701316
+    }
+  },
+  "usage": {
+    "input_tokens": 49,
+    "requested_input_tokens": 49,
+    "encoded_state_tokens": 37,
+    "encoded_option_tokens": 12,
+    "cached_option_tokens": 0,
+    "output_tokens": 0,
+    "truncated_tokens": 0
+  },
+  "latency_ms": 56221.189960837364
+}

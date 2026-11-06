@@ -1,0 +1,55 @@
+{
+  "model": "Jeva-4B",
+  "checkpoint": "/home1/irteam/data-vol1/SuJevi/models/huggingface/hub/models--LIQIIIII--Jeva-4B/snapshots/25ca454b3522615a243c06703ba410ecf152a128",
+  "checkpoint_revision": "25ca454b3522615a243c06703ba410ecf152a128",
+  "dtype": "bfloat16",
+  "quantized": false,
+  "adapter_merged": false,
+  "cache": "none",
+  "default_model_representation": "native_probability_distribution",
+  "questions": {
+    "billing_related": {
+      "question_type": "noul",
+      "option_ids": [
+        "false",
+        "true"
+      ],
+      "raw_logits": {
+        "false": -1.014083743095398,
+        "true": -0.7854450345039368
+      },
+      "raw_probability_distribution": {
+        "false": 0.44308799505233765,
+        "true": 0.5569119453430176
+      },
+      "decision_logits": {
+        "false": -9.177825927734375,
+        "true": -7.10856294631958
+      },
+      "native_probability_distribution": {
+        "false": 0.1121203824877739,
+        "true": 0.8878796100616455
+      },
+      "calibrated_probability_distribution": null,
+      "calibration_status": "unverified_no_posthoc_calibration_identified",
+      "learned_decision_temperature": 0.11049280315637589,
+      "option_id_probability_mapping": [
+        {
+          "option_id": "false",
+          "probability": 0.1121203824877739
+        },
+        {
+          "option_id": "true",
+          "probability": 0.8878796100616455
+        }
+      ],
+      "native_head_null_probability": 0.9963732361793518,
+      "coverage_logit": -5.615792751312256,
+      "null_included_in_distribution": false,
+      "default_model_representation": {
+        "false": 0.1121203824877739,
+        "true": 0.8878796100616455
+      }
+    }
+  }
+}

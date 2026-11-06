@@ -1,6 +1,6 @@
 # WS1 model status
 
-Last updated: 2026-11-06 (Asia/Seoul)
+Last updated: 2026-11-07 (Asia/Seoul)
 
 Status values are `Pending`, `Code Ready`, `Awaiting User Execution`,
 `Success`, `Failed`, `Blocked`, and `Excluded`. A step is marked `Success`
@@ -14,6 +14,45 @@ model-pool decision and requires no environment or runtime execution.
 | 3 | Decider | Excluded | Excluded | Excluded | Excluded | Excluded |
 | 4 | Laya | Success | Success | Success | Success | Success |
 | 5 | Bosun | Success | Success | Success | Success | Success |
+| 6 | Jeva-4B | Success | Success | Success | Success | Success |
+
+## Jeva-4B research and environment record
+
+- Paper: *Jeva: System One Models from First Principles*, arXiv:2610.18773v2.
+- Official code: `LIQIIIII/Jeva`, revision
+  `e2104e0720100f979f2cdd456a1cbbee96da0abd`.
+- Checkpoint: `LIQIIIII/Jeva-4B`, revision
+  `25ca454b3522615a243c06703ba410ecf152a128`.
+- Official Python runtime supports local Noul, Choice, and Score; an HTTP
+  server is not required. The official training CLI supports head and LoRA
+  modes. Code and checkpoint are Apache-2.0.
+- User reported Python 3.12.16, PyTorch 2.9.1+cu128, NVCC 12.8.93,
+  NVIDIA H200 with BF16, and successful official forward-kernel doctor checks.
+- `pip check` passed with `PYTHONPATH` unset. With SuJevi's source path on
+  `PYTHONPATH`, unrelated SuJevi package requirements were reported missing.
+- The user executed the SuJevi Jeva environment profile: all package
+  constraints and the CUDA 12.8 runtime check passed with `ok: true`.
+  Kernel execution was independently verified with the official doctor.
+- The user reported successful download of the pinned checkpoint, including
+  backbone shards, adapter, tokenizer, config and decision head. Full cache
+  size was reported as 32 GiB. No checksum comparison was reported.
+- The user verified local BF16 Noul inference with the unmerged PEFT adapter.
+  Raw scores were false -1.0140837431, true -0.7854450345; their softmax was
+  false 0.4430879951, true 0.5569119453. Learned decision temperature was
+  0.1104928032; the resulting native distribution was false 0.1121203825,
+  true 0.8878796101, matching the native Noul and option mapping. Separate
+  post-hoc calibration has not been established.
+- The user verified a three-option Choice request. The native distribution
+  was billing 0.9608018398, shipping 0.0045975656, and returns 0.0346005298;
+  the selected option, captured logits and option-ID mapping agree. No input
+  tokens were truncated.
+- The user verified Score levels 0/1/2 with native probabilities 0.0782801658,
+  0.2710691690 and 0.6506507397. The reported expected score 1.5723706484
+  equals the probability-weighted level values. The option mappings match
+  the native output, input was not truncated, and the adapter was unmerged.
+- The first Noul request reported 56.2 seconds; this is a cold request and
+  does not establish steady-state performance. The stored head null
+  probability is an internal coverage output, not the native Noul null field.
 
 ## Kev-4B research record
 

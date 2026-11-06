@@ -60,6 +60,24 @@ BOSUN_REQUIREMENTS = {
     "numpy": "==2.5.3",
 }
 
+JEVA_REQUIREMENTS = {
+    "jeva-model": "==0.1.0",
+    "torch": "==2.9.1",
+    "transformers": "==5.17.0",
+    "peft": "==0.21.2",
+    "accelerate": "==1.12.0",
+    "huggingface_hub": ">=1.5,<2",
+    "safetensors": ">=0.8,<1",
+    "numpy": ">=1.26,<3",
+    "PyYAML": ">=6,<7",
+    "tqdm": ">=4.66,<5",
+    "einops": "==0.8.1",
+    "fla-core": "==0.5.2",
+    "flash-linear-attention": "==0.5.2",
+    "causal-conv1d": "==1.7.0",
+    "tilelang": "==0.1.15",
+}
+
 
 def package_report(requirements: dict[str, str]) -> tuple[dict[str, Any], list[str]]:
     try:
@@ -267,9 +285,44 @@ def check_bosun() -> tuple[dict[str, Any], list[str]]:
     )
 
 
+def check_jeva() -> tuple[dict[str, Any], list[str]]:
+    failures: list[str] = []
+    python_ok = (3, 12) <= sys.version_info[:2] < (3, 13)
+    if not python_ok:
+        failures.append("Jeva requires Python >=3.12,<3.13")
+    packages, package_failures = package_report(JEVA_REQUIREMENTS)
+    failures.extend(package_failures)
+    jeva_importable = importlib.util.find_spec("jeva") is not None
+    if not jeva_importable:
+        failures.append("the official jeva package is not importable")
+    cuda, cuda_failures = cuda_report()
+    failures.extend(cuda_failures)
+    cuda["required_torch_cuda_runtime"] = "12.8"
+    cuda["runtime_ok"] = cuda.get("torch_cuda_runtime") == "12.8"
+    if not cuda["runtime_ok"]:
+        failures.append("Jeva profile requires the CUDA 12.8 PyTorch runtime")
+    return (
+        {
+            "profile": "jeva",
+            "python": {
+                "version": platform.python_version(),
+                "executable": sys.executable,
+                "required": ">=3.12,<3.13",
+                "ok": python_ok,
+            },
+            "platform": platform.platform(),
+            "jeva_importable": jeva_importable,
+            "packages": packages,
+            "cuda": cuda,
+            "kernel_execution": "not checked; run jeva-doctor --check-kernels --strict",
+        },
+        failures,
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--profile", choices=("kev", "jeff", "laya", "bosun"), required=True)
+    parser.add_argument("--profile", choices=("kev", "jeff", "laya", "bosun", "jeva"), required=True)
     args = parser.parse_args()
 
     if args.profile == "kev":
@@ -280,6 +333,8 @@ def main() -> int:
         report, failures = check_laya()
     elif args.profile == "bosun":
         report, failures = check_bosun()
+    elif args.profile == "jeva":
+        report, failures = check_jeva()
     else:  # pragma: no cover - argparse prevents this branch
         raise AssertionError(args.profile)
 

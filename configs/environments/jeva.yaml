@@ -1,0 +1,40 @@
+profile: jeva
+isolation: per-model
+manager: conda-pip
+conda_environment: jeva
+python: ">=3.12,<3.13"
+official_code_repository: https://github.com/LIQIIIII/Jeva.git
+official_code_revision: e2104e0720100f979f2cdd456a1cbbee96da0abd
+direct_requirements:
+  jeva-model: "==0.1.0"
+  torch: "==2.9.1"
+  transformers: "==5.17.0"
+  peft: "==0.21.2"
+  accelerate: "==1.12.0"
+  huggingface_hub: ">=1.5,<2"
+  safetensors: ">=0.8,<1"
+  numpy: ">=1.26,<3"
+  PyYAML: ">=6,<7"
+  tqdm: ">=4.66,<5"
+  einops: "==0.8.1"
+  fla-core: "==0.5.2"
+  flash-linear-attention: "==0.5.2"
+  causal-conv1d: "==1.7.0"
+  tilelang: "==0.1.15"
+target_hardware:
+  gpu: NVIDIA H200
+  torch_cuda_runtime: "12.8"
+  nvcc: "12.8"
+user_reported_validation:
+  python: 3.12.16
+  torch: 2.9.1+cu128
+  cuda_available: true
+  gpu: NVIDIA H200
+  compute_capability: "9.0"
+  bf16_supported: true
+  nvcc: 12.8.93
+  official_doctor_forward: passed
+  pip_check_without_pythonpath: passed
+  note: SuJevi source in PYTHONPATH exposes its unrelated package metadata to pip check.
+  sujevi_profile_check: passed
+status: success_user_verified

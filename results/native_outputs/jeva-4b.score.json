@@ -1,0 +1,47 @@
+{
+  "answers": {
+    "urgency": {
+      "kind": "score",
+      "probabilities": {
+        "0": 0.07828016579151154,
+        "1": 0.27106916904449463,
+        "2": 0.6506507396697998
+      },
+      "conditional_probabilities": {
+        "0": 0.07828016579151154,
+        "1": 0.27106916904449463,
+        "2": 0.6506507396697998
+      },
+      "null_probability": 0.0,
+      "choice": null,
+      "noul": null,
+      "score": 1.5723706483840942,
+      "confidence": 0.6506507396697998,
+      "candidate_probabilities": [
+        0.07828016579151154,
+        0.27106916904449463,
+        0.6506507396697998
+      ],
+      "usage": {
+        "input_tokens": 71,
+        "requested_input_tokens": 71,
+        "encoded_state_tokens": 37,
+        "encoded_option_tokens": 34,
+        "cached_option_tokens": 0,
+        "output_tokens": 0,
+        "truncated_tokens": 0
+      },
+      "latency_ms": 964.7338539361954
+    }
+  },
+  "usage": {
+    "input_tokens": 71,
+    "requested_input_tokens": 71,
+    "encoded_state_tokens": 37,
+    "encoded_option_tokens": 34,
+    "cached_option_tokens": 0,
+    "output_tokens": 0,
+    "truncated_tokens": 0
+  },
+  "latency_ms": 964.8376330733299
+}

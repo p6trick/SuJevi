@@ -1,0 +1,47 @@
+{
+  "answers": {
+    "route": {
+      "kind": "choice",
+      "probabilities": {
+        "billing": 0.9608018398284912,
+        "shipping": 0.004597565624862909,
+        "returns": 0.034600529819726944
+      },
+      "conditional_probabilities": {
+        "billing": 0.9608018398284912,
+        "shipping": 0.004597565624862909,
+        "returns": 0.034600529819726944
+      },
+      "null_probability": 0.0,
+      "choice": "billing",
+      "noul": null,
+      "score": null,
+      "confidence": 0.9608018398284912,
+      "candidate_probabilities": [
+        0.9608018398284912,
+        0.004597565624862909,
+        0.034600529819726944
+      ],
+      "usage": {
+        "input_tokens": 80,
+        "requested_input_tokens": 80,
+        "encoded_state_tokens": 37,
+        "encoded_option_tokens": 43,
+        "cached_option_tokens": 0,
+        "output_tokens": 0,
+        "truncated_tokens": 0
+      },
+      "latency_ms": 3241.1401011049747
+    }
+  },
+  "usage": {
+    "input_tokens": 80,
+    "requested_input_tokens": 80,
+    "encoded_state_tokens": 37,
+    "encoded_option_tokens": 43,
+    "cached_option_tokens": 0,
+    "output_tokens": 0,
+    "truncated_tokens": 0
+  },
+  "latency_ms": 3241.2247993052006
+}

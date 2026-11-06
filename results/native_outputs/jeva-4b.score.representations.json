@@ -1,0 +1,65 @@
+{
+  "model": "Jeva-4B",
+  "checkpoint": "/home1/irteam/data-vol1/SuJevi/models/huggingface/hub/models--LIQIIIII--Jeva-4B/snapshots/25ca454b3522615a243c06703ba410ecf152a128",
+  "checkpoint_revision": "25ca454b3522615a243c06703ba410ecf152a128",
+  "dtype": "bfloat16",
+  "quantized": false,
+  "adapter_merged": false,
+  "cache": "none",
+  "default_model_representation": "native_probability_distribution",
+  "questions": {
+    "urgency": {
+      "question_type": "score",
+      "option_ids": [
+        "0",
+        "1",
+        "2"
+      ],
+      "raw_logits": {
+        "0": -0.8374125957489014,
+        "1": -0.700171709060669,
+        "2": -0.6034243106842041
+      },
+      "raw_probability_distribution": {
+        "0": 0.2931920289993286,
+        "1": 0.3363218605518341,
+        "2": 0.37048614025115967
+      },
+      "decision_logits": {
+        "0": -7.578887939453125,
+        "1": -6.336808204650879,
+        "2": -5.461209297180176
+      },
+      "native_probability_distribution": {
+        "0": 0.07828016579151154,
+        "1": 0.27106916904449463,
+        "2": 0.6506507396697998
+      },
+      "calibrated_probability_distribution": null,
+      "calibration_status": "unverified_no_posthoc_calibration_identified",
+      "learned_decision_temperature": 0.11049280315637589,
+      "option_id_probability_mapping": [
+        {
+          "option_id": "0",
+          "probability": 0.07828016579151154
+        },
+        {
+          "option_id": "1",
+          "probability": 0.27106916904449463
+        },
+        {
+          "option_id": "2",
+          "probability": 0.6506507396697998
+        }
+      ],
+      "native_head_null_probability": 0.9869312644004822,
+      "coverage_logit": -4.32438325881958,
+      "null_included_in_distribution": false,
+      "default_model_representation": {
+        "0": 0.07828016579151154,
+        "1": 0.27106916904449463,
+        "2": 0.6506507396697998
+      }
+    }
+  }
+}
