@@ -1,0 +1,18 @@
+{
+  "answers": {
+    "route": {
+      "type": "choice",
+      "choice": "billing",
+      "confidence": 0.987402266197747,
+      "probabilities": {
+        "billing": 0.987402266197747,
+        "shipping": 0.007082149908041348,
+        "returns": 0.00551558389421168
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 81,
+    "output_tokens": 0
+  }
+}

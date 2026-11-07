@@ -1,0 +1,78 @@
+{
+  "model": "Liquid-d1-3B",
+  "checkpoint": "/home1/irteam/data-vol1/SuJevi/models/huggingface/hub/models--LiquidAI--d1-3B/snapshots/051bcc464b01b9f92942b364d9586b0ef5912432",
+  "checkpoint_revision": "051bcc464b01b9f92942b364d9586b0ef5912432",
+  "dtype": "bfloat16",
+  "quantized": false,
+  "remote_code": true,
+  "default_model_representation": "native_probability_distribution",
+  "questions": {
+    "urgency": {
+      "question_type": "score",
+      "option_ids": [
+        "0",
+        "1",
+        "2"
+      ],
+      "raw_logits": {
+        "0": 13.75,
+        "1": 14.125,
+        "2": 19.375
+      },
+      "raw_probability_distribution": {
+        "0": 0.003574910586204437,
+        "1": 0.005201464210955177,
+        "2": 0.9912236252028404
+      },
+      "native_probability_distribution": {
+        "0": 0.0035749105862044367,
+        "1": 0.005201464210955177,
+        "2": 0.9912236252028404
+      },
+      "calibrated_probability_distribution": null,
+      "calibration_status": "no_posthoc_calibration_object_in_official_default_runtime",
+      "option_id_probability_mapping": [
+        {
+          "option_id": "0",
+          "probability": 0.0035749105862044367
+        },
+        {
+          "option_id": "1",
+          "probability": 0.005201464210955177
+        },
+        {
+          "option_id": "2",
+          "probability": 0.9912236252028404
+        }
+      ],
+      "readout": "maximum raw logit within each official option token group",
+      "option_token_ids": {
+        "0": [
+          24
+        ],
+        "1": [
+          25
+        ],
+        "2": [
+          26
+        ]
+      },
+      "option_token_logits": {
+        "0": {
+          "24": 13.75
+        },
+        "1": {
+          "25": 14.125
+        },
+        "2": {
+          "26": 19.375
+        }
+      },
+      "default_model_representation": {
+        "0": 0.0035749105862044367,
+        "1": 0.005201464210955177,
+        "2": 0.9912236252028404
+      }
+    }
+  }
+}

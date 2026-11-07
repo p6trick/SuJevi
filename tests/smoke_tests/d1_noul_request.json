@@ -1,0 +1,10 @@
+{
+  "model": "Liquid-d1-3B",
+  "state": "A customer reports that their card was charged twice for the same order and requests a refund.",
+  "questions": {
+    "billing_related": {
+      "type": "noul",
+      "instructions": "Is this request related to billing?"
+    }
+  }
+}

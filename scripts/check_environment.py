@@ -78,6 +78,17 @@ JEVA_REQUIREMENTS = {
     "tilelang": "==0.1.15",
 }
 
+D1_REQUIREMENTS = {
+    "torch": "==2.9.1",
+    "torchvision": "==0.24.1",
+    "transformers": "==5.17.0",
+    "peft": "==0.21.2",
+    "accelerate": "==1.12.0",
+    "huggingface_hub": ">=1.5,<2",
+    "safetensors": ">=0.8,<1",
+    "pillow": ">=10,<13",
+}
+
 
 def package_report(requirements: dict[str, str]) -> tuple[dict[str, Any], list[str]]:
     try:
@@ -320,9 +331,40 @@ def check_jeva() -> tuple[dict[str, Any], list[str]]:
     )
 
 
+def check_d1() -> tuple[dict[str, Any], list[str]]:
+    failures: list[str] = []
+    python_ok = (3, 12) <= sys.version_info[:2] < (3, 13)
+    if not python_ok:
+        failures.append("d1 profile requires Python >=3.12,<3.13")
+    packages, package_failures = package_report(D1_REQUIREMENTS)
+    failures.extend(package_failures)
+    cuda, cuda_failures = cuda_report()
+    failures.extend(cuda_failures)
+    cuda["required_torch_cuda_runtime"] = "12.8"
+    cuda["runtime_ok"] = cuda.get("torch_cuda_runtime") == "12.8"
+    if not cuda["runtime_ok"]:
+        failures.append("d1 profile requires the PyTorch CUDA 12.8 runtime")
+    return (
+        {
+            "profile": "d1",
+            "python": {
+                "version": platform.python_version(),
+                "executable": sys.executable,
+                "required": ">=3.12,<3.13",
+                "ok": python_ok,
+            },
+            "platform": platform.platform(),
+            "packages": packages,
+            "cuda": cuda,
+            "model_and_remote_code": "not loaded or validated by this check",
+        },
+        failures,
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--profile", choices=("kev", "jeff", "laya", "bosun", "jeva"), required=True)
+    parser.add_argument("--profile", choices=("kev", "jeff", "laya", "bosun", "jeva", "d1"), required=True)
     args = parser.parse_args()
 
     if args.profile == "kev":
@@ -335,6 +377,8 @@ def main() -> int:
         report, failures = check_bosun()
     elif args.profile == "jeva":
         report, failures = check_jeva()
+    elif args.profile == "d1":
+        report, failures = check_d1()
     else:  # pragma: no cover - argparse prevents this branch
         raise AssertionError(args.profile)
 

@@ -1,0 +1,15 @@
+{
+  "state": "A customer reports that their card was charged twice for the same order and requests a refund today.",
+  "model": "Liquid-d1-3B",
+  "questions": {
+    "urgency": {
+      "type": "score",
+      "instructions": "How urgent is the requested response?",
+      "criteria": [
+        "Can wait several days",
+        "Should be handled this week",
+        "Should be handled today"
+      ]
+    }
+  }
+}

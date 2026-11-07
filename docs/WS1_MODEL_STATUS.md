@@ -15,6 +15,44 @@ model-pool decision and requires no environment or runtime execution.
 | 4 | Laya | Success | Success | Success | Success | Success |
 | 5 | Bosun | Success | Success | Success | Success | Success |
 | 6 | Jeva-4B | Success | Success | Success | Success | Success |
+| 7 | Liquid d1-3B | Success | Success | Success | Success | Success |
+
+## Liquid d1-3B research and environment record
+
+- Checkpoint and official Python code: `LiquidAI/d1-3B`, pinned to
+  `051bcc464b01b9f92942b364d9586b0ef5912432`.
+- The model has an LFM2.5-VL-3B backbone, accepts text and images, and
+  supports Noul, Choice and Score through a local Python interface. WS1
+  initially validates text only and uses unquantized BF16 weights.
+- The d1 release is documented in an official article; the LFM2 technical
+  report is a backbone paper, not a d1-specific paper. Checkpoint license:
+  LFM Open License v1.0, including its commercial-use conditions.
+- The official model card requires Transformers 5.14 or newer, torch,
+  torchvision and pillow. The isolated `d1` environment specifies project
+  version choices to make the H200 CUDA 12.8 setup reproducible; these are
+  not claimed to be official pins. PEFT is included for possible later work,
+  but d1 fine-tuning support has not been validated.
+- The user verified the isolated environment: Python 3.12.16, PyTorch
+  2.9.1+cu128, torchvision 0.24.1+cu128, Transformers 5.17.0, PEFT 0.21.2,
+  and one NVIDIA H200 with 139.8 GiB. `pip check` and the SuJevi environment
+  profile both passed.
+- The user downloaded the pinned 15-file snapshot, including the 6,247,065,504
+  byte BF16 checkpoint and Python source; no independent checksum was reported.
+  The reviewed default readout passes no post-hoc calibration object, and
+  takes the maximum token score per candidate before softmax. The local
+  single-text-question adapter captures raw logits and native probabilities.
+- The user verified Noul inference on the pinned checkpoint with BF16 and no
+  quantization. The maximum logits for true and false were 20.125 and 16.25;
+  the official native distribution was true 0.9796676467 and false 0.0203323533.
+  The native Noul, captured option probabilities and token-ID mapping agree.
+  The subsequent Choice and Score results are recorded below.
+- The user verified Choice inference: billing was selected with probability
+  0.9874022662, shipping 0.0070821499, and returns 0.0055155839. The
+  candidate-to-token groups and native option mapping were preserved.
+- The user verified Score levels 0/1/2 with probabilities 0.0035749106,
+  0.0052014642, and 0.9912236252. Their probability-weighted expected score
+  equals the native score 1.9876487146. The native probabilities, option IDs,
+  raw token logits and default representation match.
 
 ## Jeva-4B research and environment record
 

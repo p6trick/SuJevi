@@ -62,3 +62,11 @@ No post-hoc calibration transform has been established: the calibrated
 field is null and the native distribution is the current default. The
 separately stored head null probability is not included in the closed-set
 Noul, Choice, or Score distributions used in these tests.
+
+Liquid d1's user-verified text Noul, Choice and Score artifacts are named
+`d1-3b.<type>.json` and `d1-3b.<type>.representations.json`. Representations
+preserve the official option-token groups and logits, max-pooled option
+logits, raw softmax, native probabilities and option-ID mapping. The default
+official runtime uses no post-hoc calibration object, so the calibrated field
+is null; native probabilities are the current default, without asserting
+calibration on the routing dataset.

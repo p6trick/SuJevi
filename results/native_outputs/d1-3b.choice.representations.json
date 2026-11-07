@@ -1,0 +1,84 @@
+{
+  "model": "Liquid-d1-3B",
+  "checkpoint": "/home1/irteam/data-vol1/SuJevi/models/huggingface/hub/models--LiquidAI--d1-3B/snapshots/051bcc464b01b9f92942b364d9586b0ef5912432",
+  "checkpoint_revision": "051bcc464b01b9f92942b364d9586b0ef5912432",
+  "dtype": "bfloat16",
+  "quantized": false,
+  "remote_code": true,
+  "default_model_representation": "native_probability_distribution",
+  "questions": {
+    "route": {
+      "question_type": "choice",
+      "option_ids": [
+        "billing",
+        "shipping",
+        "returns"
+      ],
+      "raw_logits": {
+        "billing": 20.0,
+        "shipping": 15.0625,
+        "returns": 14.8125
+      },
+      "raw_probability_distribution": {
+        "billing": 0.9874022661977472,
+        "shipping": 0.00708214990804135,
+        "returns": 0.005515583894211681
+      },
+      "native_probability_distribution": {
+        "billing": 0.987402266197747,
+        "shipping": 0.007082149908041348,
+        "returns": 0.00551558389421168
+      },
+      "calibrated_probability_distribution": null,
+      "calibration_status": "no_posthoc_calibration_object_in_official_default_runtime",
+      "option_id_probability_mapping": [
+        {
+          "option_id": "billing",
+          "probability": 0.987402266197747
+        },
+        {
+          "option_id": "shipping",
+          "probability": 0.007082149908041348
+        },
+        {
+          "option_id": "returns",
+          "probability": 0.00551558389421168
+        }
+      ],
+      "readout": "maximum raw logit within each official option token group",
+      "option_token_ids": {
+        "billing": [
+          41,
+          334
+        ],
+        "shipping": [
+          42,
+          378
+        ],
+        "returns": [
+          43,
+          340
+        ]
+      },
+      "option_token_logits": {
+        "billing": {
+          "41": 20.0,
+          "334": 10.9375
+        },
+        "shipping": {
+          "42": 15.0625,
+          "378": 6.40625
+        },
+        "returns": {
+          "43": 14.8125,
+          "340": 6.0625
+        }
+      },
+      "default_model_representation": {
+        "billing": 0.987402266197747,
+        "shipping": 0.007082149908041348,
+        "returns": 0.00551558389421168
+      }
+    }
+  }
+}

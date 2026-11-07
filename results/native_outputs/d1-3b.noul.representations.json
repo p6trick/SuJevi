@@ -1,0 +1,69 @@
+{
+  "model": "Liquid-d1-3B",
+  "checkpoint": "/home1/irteam/data-vol1/SuJevi/models/huggingface/hub/models--LiquidAI--d1-3B/snapshots/051bcc464b01b9f92942b364d9586b0ef5912432",
+  "checkpoint_revision": "051bcc464b01b9f92942b364d9586b0ef5912432",
+  "dtype": "bfloat16",
+  "quantized": false,
+  "remote_code": true,
+  "default_model_representation": "native_probability_distribution",
+  "questions": {
+    "billing_related": {
+      "question_type": "noul",
+      "option_ids": [
+        "true",
+        "false"
+      ],
+      "raw_logits": {
+        "true": 20.125,
+        "false": 16.25
+      },
+      "raw_probability_distribution": {
+        "true": 0.9796676466573412,
+        "false": 0.020332353342658753
+      },
+      "native_probability_distribution": {
+        "true": 0.9796676466573412,
+        "false": 0.020332353342658753
+      },
+      "calibrated_probability_distribution": null,
+      "calibration_status": "no_posthoc_calibration_object_in_official_default_runtime",
+      "option_id_probability_mapping": [
+        {
+          "option_id": "true",
+          "probability": 0.9796676466573412
+        },
+        {
+          "option_id": "false",
+          "probability": 0.020332353342658753
+        }
+      ],
+      "readout": "maximum raw logit within each official option token group",
+      "option_token_ids": {
+        "true": [
+          11683,
+          12447
+        ],
+        "false": [
+          2243,
+          4547,
+          19598
+        ]
+      },
+      "option_token_logits": {
+        "true": {
+          "11683": 20.125,
+          "12447": 15.375
+        },
+        "false": {
+          "2243": 16.25,
+          "4547": 12.0,
+          "19598": 9.5625
+        }
+      },
+      "default_model_representation": {
+        "true": 0.9796676466573412,
+        "false": 0.020332353342658753
+      }
+    }
+  }
+}

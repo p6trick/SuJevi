@@ -1,0 +1,23 @@
+{
+  "answers": {
+    "urgency": {
+      "type": "score",
+      "score": 1.987648714616636,
+      "confidence": 0.9912236252028404,
+      "probabilities": {
+        "0": 0.0035749105862044367,
+        "1": 0.005201464210955177,
+        "2": 0.9912236252028404
+      },
+      "legend": {
+        "0": "Can wait several days",
+        "1": "Should be handled this week",
+        "2": "Should be handled today"
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 67,
+    "output_tokens": 0
+  }
+}

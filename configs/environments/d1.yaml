@@ -1,0 +1,39 @@
+profile: d1
+isolation: per-model
+manager: conda-pip
+conda_environment: d1
+python: ">=3.12,<3.13"
+checkpoint_repository: LiquidAI/d1-3B
+checkpoint_revision: 051bcc464b01b9f92942b364d9586b0ef5912432
+requirements_origin: The official model card requires transformers >=5.14, torch, torchvision and pillow. Exact versions below are SuJevi environment choices, not official pins.
+direct_requirements:
+  torch: "==2.9.1"
+  torchvision: "==0.24.1"
+  transformers: "==5.17.0"
+  peft: "==0.21.2"
+  accelerate: "==1.12.0"
+  huggingface_hub: ">=1.5,<2"
+  safetensors: ">=0.8,<1"
+  pillow: ">=10,<13"
+target_hardware:
+  gpu: NVIDIA H200
+  torch_cuda_runtime: "12.8"
+  precision: bfloat16
+validation:
+  environment: success_user_verified
+  python: 3.12.16
+  torch: 2.9.1+cu128
+  torchvision: 0.24.1+cu128
+  transformers: 5.17.0
+  peft: 0.21.2
+  accelerate: 1.12.0
+  huggingface_hub: 1.33.0
+  safetensors: 0.8.0
+  pillow: 12.3.0
+  gpu: NVIDIA H200
+  compute_capability: "9.0"
+  total_memory_gib: 139.8
+  pip_check_without_pythonpath: passed
+  model_loading: not_run
+  inference: not_run
+status: success_user_verified

@@ -1,0 +1,38 @@
+model_key: d1
+display_name: Liquid d1-3B
+status: success_user_verified
+source:
+  checkpoint_repository: LiquidAI/d1-3B
+  checkpoint_revision: 051bcc464b01b9f92942b364d9586b0ef5912432
+  code_location: Python source included in checkpoint repository
+  release_article: https://www.liquid.ai/blog/d1-open
+  backbone_paper: https://arxiv.org/abs/2511.23404
+  note: The backbone technical report is not a d1-specific methods paper.
+architecture:
+  backbone: LFM2.5-VL-3B
+  parameters: 3.12B
+  inputs: [text, image]
+  initial_validation: text
+  quantized: false
+native_interface:
+  implementation: checkpoint AutoModel and system_one
+  transport: in-process
+  trust_remote_code: true
+  question_types: [noul, choice, score]
+representation:
+  native_probability: available according to official API
+  raw_logits: maximum logit per official option token group, user verified for noul, choice and score
+  raw_probability: option softmax, user verified for noul, choice and score
+  calibration: official default readout has no post-hoc calibration object; calibration quality is unverified
+validation:
+  noul: success_user_verified
+  choice: success_user_verified
+  score: success_user_verified
+  score_expected_value: 1.987648714616636
+fine_tuning:
+  official_training_script: unverified
+  lora: technically plausible, not validated
+  executed: false
+license:
+  checkpoint: LFM Open License v1.0
+  note: Commercial use is subject to the terms of the license.

@@ -1,0 +1,15 @@
+{
+  "state": "A customer reports that their card was charged twice for the same order and requests a refund.",
+  "model": "Liquid-d1-3B",
+  "questions": {
+    "route": {
+      "type": "choice",
+      "instructions": "Which team should primarily handle this request?",
+      "criteria": {
+        "billing": "Duplicate charges, payments, invoices, and refunds",
+        "shipping": "Delivery status, delays, and lost packages",
+        "returns": "Wrong sizes, exchanges, and returned merchandise"
+      }
+    }
+  }
+}

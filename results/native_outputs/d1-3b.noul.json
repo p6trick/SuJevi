@@ -1,0 +1,12 @@
+{
+  "answers": {
+    "billing_related": {
+      "type": "noul",
+      "noul": 0.9796676466573412
+    }
+  },
+  "usage": {
+    "input_tokens": 44,
+    "output_tokens": 0
+  }
+}
