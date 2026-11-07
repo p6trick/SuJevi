@@ -1,14 +1,19 @@
 # SuJevi server migration
 
 Status: preparation only. No environments, caches, checkpoints or results have
-been deleted. WS2 implementation is paused. Do not clean the old server until
-backups, final push, and recovery on the new server have been verified.
+been deleted. WS2 implementation is paused. The migration strategy is to clone
+Git and reconstruct environments and public checkpoints on the new server.
+The user has chosen to clean the old server before new-server recovery. This
+accepts the risk that a public artifact or dependency may later become
+unavailable. Review each target, preserve the environment exports, commit this
+document and confirm the remote commit before any user-directed cleanup.
 
 ## Current inventory
 
-The user reported the `main` branch at `e9eadd1`, remote
-`https://github.com/p6trick/SuJevi.git`, with modifications to
-`docs/WS1_MODEL_STATUS.md` and the untracked `docs/WS2_DATASET_RESEARCH.md`.
+The user reported local and remote `main` at
+`ea93442e3bee45edb11d7cf5d60a1a87dffd26cf`, remote
+`https://github.com/p6trick/SuJevi.git`. Subsequent documentation edits need
+their own review and push.
 Native WS1 smoke outputs are tracked. `third_party/OneJev` is a submodule at
 `53df4d096db65333470c714d211930f7f6cc89dd`; clone with submodules. The LFS
 listing printed no files; this does not establish Git LFS history elsewhere.
@@ -26,8 +31,8 @@ Important Git-ignored material:
   cleanup. Public revision availability is not guaranteed indefinitely.
 - `models/OneJev-4B/` is 9.7G and `models/Jev-Omni/` is 23G. These earlier
   models are outside the completed seven-model pool but must be retained until
-  their provenance and backup needs are confirmed. The old download script
-  does not pin their revisions. Do not assume their contents are reproducible.
+  their provenance and backup needs are confirmed. See the legacy checkpoint
+  section below; the old download script does not pin their revisions.
 - `.vendor/kev/` contains the official source at commit
   `6b719c3c3f367295f6ef336f4f751cf5ff970abc`, plus 685M in `runs/` and 131M
   in `evals/`; preserve local artifacts until reviewed. `.vendor/jeva/` is at
@@ -52,8 +57,9 @@ estimate of reclaimed disk space.
 The user must execute the commands below. Raw exports may contain absolute
 paths, editable project paths, private URLs, credentials and machine-specific
 prefixes. They are evidence for reconstruction, not guaranteed portable
-lockfiles. Keep them in a private backup outside Git and transfer that backup
-securely to durable storage before the server stops. Never publish raw exports
+lockfiles. Transferring them is optional under the rebuild strategy, but losing
+them discards useful exact old-server provenance. If retained, use private
+storage outside Git. Never publish raw exports
 without inspecting and sanitizing them. The temporary project-local directory
 below is ignored by Git through `models/*`; it is not an off-server backup.
 
@@ -85,8 +91,8 @@ seven environments were listed with nonzero sizes and owner-only file
 permissions under the Git-ignored local directory
 `models/migration-env-EufCkT/`. This confirms the files exist; it does not
 independently validate their content, successful reproduction, or an
-off-server backup. Sensitive-information review and secure transfer remain
-pending. The export directory is not to be added to Git.
+off-server backup. Sensitive-information review remains pending; secure
+transfer is optional. The export directory is not to be added to Git.
 
 **Reconstruction policy:** `full.yml`, `history.yml`, `explicit.txt` and
 `pip-freeze.txt` are records of the old server, not instructions to clone its
@@ -104,7 +110,8 @@ be recorded as a new environment, not described as identical to the old one.
 
 These are the old server's user-verified versions, not universal requirements
 for an unknown new host. All seven reports used Python 3.12.16 on Linux x86_64
-and an H200. Full transitive dependency details await the user's exports.
+and an H200. The user's private exports record additional dependencies but have
+not been fully audited for portability or published.
 
 | Model / environment | PyTorch / bundled CUDA runtime | Transformers | GPU-specific or other considerations |
 | --- | --- | --- | --- |
@@ -140,7 +147,7 @@ revisions whenever they remain available and compatible with the new system:
 
 Record and investigate any unavailable revision or required code change; do
 not silently switch to a newer `main`. Keep the old source and local changes
-until the new source revisions and artifacts have been verified.
+without separately accepting the risk of upstream artifacts becoming unavailable.
 
 ## Seven-model checkpoint inventory
 
@@ -162,6 +169,71 @@ checkpoint. Each checkpoint's license and possible access restrictions must be
 reviewed before downloading or moving it; Jeff and OpenJev weights are
 non-commercial. Git must not contain model weights or unreviewed data.
 
+### Pinned downloads on the new server
+
+After installing a compatible Hugging Face CLI and reviewing access and
+licenses, the user can run the following from the new checkout. These are
+downloads, not commands executed during the audit:
+
+```bash
+export HF_HOME="$PWD/models/huggingface"
+hf download jaredpalmer/kev-4b --revision 6cfce5c2fa4b4bd64026336ab649c5ca78857d52
+hf download Qwen/Qwen3.5-4B-Base --revision 1001bb4d826a52d1f399e183466143f4da7b741b
+hf download jgeuter/Jeff-1.1-Qwen-4B --revision 5401940b5a8c959cba82187ebfa2dce5a21abc0a
+hf download convaiinnovations/laya --revision 7b928d828b7b0e022f929d9bd2e44165aa270148
+hf download Hanno-Labs/bosun-v3.1-1.7b --revision 1d8dc82a20e4a32ed60927a47272d6efff48eed2
+hf download Qwen/Qwen3-1.7B --revision 70d244cc86ccca08cf5af4e1e306ecf908b1ad5e
+hf download LIQIIIII/Jeva-4B --revision 25ca454b3522615a243c06703ba410ecf152a128
+hf download LiquidAI/d1-3B --revision 051bcc464b01b9f92942b364d9586b0ef5912432
+hf download openjev/openjev --revision b4a89f5884f3482a5e894b2e7ff01db8ea033726
+```
+
+### Legacy checkpoints and Kev artifacts
+
+The old local download metadata records `OmniJev/OneJev-4B` revision
+`c5ab4dae8d9e3c12cf060db2c6487c08851fed06` and
+`akhilaaa3/Jev-Omni` revision `fee89b076e2263bfa8bce8d34142caa4ca733a48`.
+The public Hub resolved each exact revision during this audit. The local
+OneJev `model.safetensors` SHA-256 is
+`c725978346bb87ff598b04b6ffe7ea89461368e9b20a0081a3c6a85d377c8f91`;
+Jev-Omni `model.safetensors` is
+`d78782f3b9c3302353a7d1a1b6277fa5e05d692f4a0cb2b862797026c65eabe6`.
+Both match the Hub weight ETags for their pinned revisions. Jev-Omni's local
+`head.pt` SHA-256 `8c81edecd733f7db327604803c14cf9ecbee53d2af055eeb09f78b64bcbf2638`
+matches the local release checksum manifest; the manifest itself has not been
+independently authenticated in this audit. These checks do not establish that
+all other files in either local directory match upstream, nor prove future
+availability. Re-download, if needed, with:
+
+```bash
+hf download OmniJev/OneJev-4B --revision c5ab4dae8d9e3c12cf060db2c6487c08851fed06
+hf download akhilaaa3/Jev-Omni --revision fee89b076e2263bfa8bce8d34142caa4ca733a48
+```
+
+In `.vendor/kev`, all 2,726 files under `runs/` and `evals/` are tracked and
+the two directories had no reported modifications or untracked files at the
+pinned commit. No files with common checkpoint extensions were found there.
+They include experiment logs and reports; they are recoverable from that Git
+commit if the upstream remains available, but an extension search is not a
+proof that no weights exist under an unusual filename. Check for other local
+results outside these two directories separately.
+
+### Installation completeness audit
+
+`configs/environments/*.yaml` records per-model direct dependency versions;
+the table above records Python, PyTorch and CUDA. They are environment
+profiles, not executable full installation instructions. Seven complete,
+validated, hardware-independent installation command sequences are **not**
+currently documented. In particular, the Kev README's `uv sync --extra serve`
+creates its own uv environment by default, so it is not by itself a recipe for
+recreating the old `sujevi-kev` Conda environment. Jeva's pinned README gives
+`conda create -n jeva -c nvidia/label/cuda-12.8.1 python=3.12 cuda-nvcc=12.8.93`
+and `python -m pip install -r requirements.txt`, but that accelerated recipe
+targets CUDA 12.8 and must not be assumed suitable for an unknown GPU. Finalize
+model-specific commands after hardware selection, consult each pinned source
+and profile, and verify all seven independently. Exact reconstruction also
+depends on source/package availability and any needed platform-specific wheels.
+
 ## New-server reconstruction checklist
 
 The new GPU, driver, CUDA support, OS, target path and Conda availability are
@@ -179,9 +251,9 @@ OpenJev 27B. Host driver-reported CUDA is not the same as the PyTorch runtime.
    conda info
    ```
 
-2. Recover and review the private environment exports. Reconstruct the seven
+2. Optionally recover and review the private environment exports. Reconstruct the seven
    environments for the new hardware individually; consult `configs/environments/<model>.yaml`,
-   the full and history exports, pip freeze, source code revisions and the
+   available exports, source code revisions and the
    installed hardware. Recreate editable source installations at the new path.
    The actual compatible installation commands must be finalized after the
    new host and the user-provided exports are known. In particular, Kev uses
@@ -218,8 +290,9 @@ OpenJev 27B. Host driver-reported CUDA is not the same as the PyTorch runtime.
    identical bytes and latency are not guaranteed. Also retain calibration
    semantics and do not treat absent post-hoc calibration as proven.
 
-6. Confirm new-server results, transferred private artifacts and remote Git
-   commit before the user separately approves any old-server cleanup.
+6. Record new-server results and any differences after reconstruction. The
+   user has explicitly chosen not to wait for this step before old-server
+   cleanup; preserve any private artifacts still needed before deleting them.
 
 ## Absolute paths and cleanup boundary
 
@@ -231,9 +304,7 @@ as historical observations. Do not rewrite those records as new-server results.
 `HF_HOME` and checkpoint overrides must be reviewed individually: several
 runners default explicitly to the project cache rather than `HF_HOME`.
 
-No deletion instructions are authorized until exact per-target sizes,
-ownership, reproducibility and off-server backup/restoration have been
-confirmed. Do not clean shared Conda or Hugging Face caches wholesale.
-In particular, explicitly decide and verify independent backups for
-`models/OneJev-4B`, `models/Jev-Omni`, and `.vendor/kev/runs` and `evals`
-before considering any cleanup of those paths or their parents.
+Deletion commands are preparation only and must not be run until the user has
+reviewed the targets and other users' dependencies.
+Do not clean shared Conda or Hugging Face caches wholesale. Decide whether any
+non-reproducible local artifacts require a private backup before cleanup.
