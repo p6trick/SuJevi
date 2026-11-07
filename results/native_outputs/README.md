@@ -70,3 +70,13 @@ logits, raw softmax, native probabilities and option-ID mapping. The default
 official runtime uses no post-hoc calibration object, so the calibrated field
 is null; native probabilities are the current default, without asserting
 calibration on the routing dataset.
+
+OpenJev's user-verified text Noul, Choice and Score artifacts are named
+`openjev-27b.<type>.json` and `openjev-27b.<type>.representations.json`.
+These responses come from a SuJevi direct-BF16 Python adaptation of the
+official helper, not from the official vLLM server. Representation artifacts
+retain raw logits, raw probabilities, helper-temperature probabilities,
+calibrated probabilities and option/token mappings. For Noul, the official
+yes/no slope is applied after the shared readout temperature. Parity with the
+official vLLM/FP8 server and calibration quality on routing data remain
+unverified. The helper's public-shaped responses round to four decimals.

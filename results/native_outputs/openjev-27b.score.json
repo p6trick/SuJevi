@@ -1,0 +1,24 @@
+{
+  "model": "OpenJev-27B-direct-bf16",
+  "answers": {
+    "urgency": {
+      "type": "score",
+      "score": 1.9966,
+      "legend": {
+        "0": "Can wait several days",
+        "1": "Should be handled this week",
+        "2": "Should be handled today"
+      },
+      "probabilities": {
+        "0": 0.0005,
+        "1": 0.0024,
+        "2": 0.9971
+      },
+      "confidence": 0.9949
+    }
+  },
+  "usage": {
+    "input_tokens": 99,
+    "output_tokens": 0
+  }
+}

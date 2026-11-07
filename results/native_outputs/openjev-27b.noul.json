@@ -1,0 +1,13 @@
+{
+  "model": "OpenJev-27B-direct-bf16",
+  "answers": {
+    "billing_related": {
+      "type": "noul",
+      "noul": 0.9809
+    }
+  },
+  "usage": {
+    "input_tokens": 77,
+    "output_tokens": 0
+  }
+}

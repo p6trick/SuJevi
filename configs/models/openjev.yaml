@@ -1,0 +1,42 @@
+model_key: openjev
+display_name: OpenJev 27B
+status: direct_python_text_smoke_success_user_verified
+source:
+  checkpoint_repository: openjev/openjev
+  checkpoint_revision: b4a89f5884f3482a5e894b2e7ff01db8ea033726
+  backbone: Qwen/Qwen3.8-27B
+  backbone_revision: 1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0
+  source_code: helper and serve directories in the checkpoint repository
+architecture:
+  model_class: Qwen3_5ForConditionalGeneration
+  parameters: 27B
+  checkpoint_dtype: bfloat16
+  checkpoint_size_gb_approx: 54.7
+  quantized: false
+  inputs: [text, image]
+  initial_validation: text
+native_interface:
+  official: vLLM server with helper; direct BF16 Python adaptation pending
+  question_types: [noul, choice, score]
+  max_single_pass_options: 52
+representation:
+  intended_fields: [raw_logits, raw_probability_distribution, calibrated_probability_distribution, option_id_probability_mapping]
+  official_choice_score_temperature: 0.85
+  official_noul_temperature: 1.829074
+  official_noul_bias: 0.0
+  note: Readout and prompt parity with the official helper remain unverified for direct Python BF16 inference.
+validation:
+  noul: success_user_verified
+  choice: success_user_verified
+  score: success_user_verified
+  score_expected_value_rounded: 1.9966
+  checksum: not_reported
+fine_tuning:
+  official_training_script: unverified
+  technical_possibility: BF16 weights support investigation of LoRA, but direct fine-tuning is not yet validated.
+  executed: false
+license:
+  weights: CC-BY-NC-4.0
+  helper_and_serve: Apache-2.0
+  backbone: Apache-2.0
+  note: Research and other non-commercial use with attribution; commercial use requires a separate license.

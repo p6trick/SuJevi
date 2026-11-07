@@ -1,0 +1,62 @@
+{
+  "model": "OpenJev-27B",
+  "checkpoint": "/home1/irteam/data-vol1/SuJevi/models/huggingface/hub/models--openjev--openjev/snapshots/b4a89f5884f3482a5e894b2e7ff01db8ea033726",
+  "checkpoint_revision": "b4a89f5884f3482a5e894b2e7ff01db8ea033726",
+  "dtype": "bfloat16",
+  "quantized": false,
+  "transport": "direct_python",
+  "official_vllm_fp8_parity": "not_verified",
+  "helper_prompt_parity": "adapted_not_verified_against_server",
+  "default_model_representation": "calibrated_probability_distribution",
+  "questions": {
+    "billing_related": {
+      "question_type": "noul",
+      "option_ids": [
+        "true",
+        "false"
+      ],
+      "option_letters": {
+        "true": "A",
+        "false": "B"
+      },
+      "option_token_ids": {
+        "true": 32,
+        "false": 33
+      },
+      "raw_logits": {
+        "true": 21.875,
+        "false": 15.75
+      },
+      "raw_probability_distribution": {
+        "true": 0.9978172835546547,
+        "false": 0.0021827164453451803
+      },
+      "readout_temperature_probability_distribution": {
+        "true": 0.9992583434441303,
+        "false": 0.0007416565558696084
+      },
+      "calibrated_probability_distribution": {
+        "true": 0.9809159548218293,
+        "false": 0.01908404517817075
+      },
+      "calibration_method": "official_helper_temperature_and_noul_slope",
+      "readout_temperature": 0.85,
+      "noul_temperature": 1.829074,
+      "noul_bias": 0.0,
+      "option_id_probability_mapping": [
+        {
+          "option_id": "true",
+          "probability": 0.9809159548218293
+        },
+        {
+          "option_id": "false",
+          "probability": 0.01908404517817075
+        }
+      ],
+      "default_model_representation": {
+        "true": 0.9809159548218293,
+        "false": 0.01908404517817075
+      }
+    }
+  }
+}

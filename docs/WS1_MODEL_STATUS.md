@@ -16,6 +16,49 @@ model-pool decision and requires no environment or runtime execution.
 | 5 | Bosun | Success | Success | Success | Success | Success |
 | 6 | Jeva-4B | Success | Success | Success | Success | Success |
 | 7 | Liquid d1-3B | Success | Success | Success | Success | Success |
+| 8 | OpenJev 27B | Success | Success | Success | Success | Success |
+
+## OpenJev research and environment record
+
+- Checkpoint and helper: `openjev/openjev`, pinned to
+  `b4a89f5884f3482a5e894b2e7ff01db8ea033726`. Its NOTICE identifies the
+  fine-tuned base as `Qwen/Qwen3.8-27B` at revision
+  `1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0`.
+- The 27B BF16 checkpoint is about 54.7 GB on disk. The H200's total 139.8
+  GiB is sufficient in principle, but available VRAM, runtime overhead and
+  sequence length must be checked for each run.
+- The official measured recipe serves with vLLM and online FP8 quantization.
+  The planned SuJevi runtime instead loads the unquantized BF16 weights
+  directly with Python; equivalence and helper prompt/readout parity must be
+  verified and official published timings do not apply.
+- The official helper specifies choice/score temperature 0.85, Noul
+  temperature 1.829074 and bias 0, for targeted candidate-token readout.
+  These settings do not by themselves prove calibration on routing data.
+- Weights are CC-BY-NC-4.0; helper and serve code are Apache-2.0.
+- The user verified Python 3.12.16, PyTorch 2.13.0+cu130, Transformers
+  5.17.0, package compatibility, and CUDA on an NVIDIA H200. At the time of
+  checking, 63,321 MiB of 143,771 MiB was in use by another process. Available
+  memory is time-dependent and model loading has not been verified.
+- The user downloaded the 34-file pinned snapshot including all 12 BF16
+  shards and the helper. Checksum verification has not been reported. The
+  one-question text adapter follows the helper's prompt, 0.85 readout
+  temperature and subsequent Noul slope; parity with the official vLLM/FP8
+  server remains unverified.
+- The user verified BF16 direct-Python Noul inference: option logits were
+  true 21.875 and false 15.75; raw softmax was true 0.9978172836 and false
+  0.0021827164. After both helper calibration steps, true was 0.9809159548,
+  matching the native rounded value 0.9809. Optional causal convolution and
+  flash-linear-attention kernels were absent, so Transformers reported its
+  slower reference implementations.
+- The user verified Choice on BF16 direct Python inference: billing was
+  selected. Full-precision temperature-scaled probabilities were billing
+  0.9998387984, shipping 0.0000139975 and returns 0.0001472041, with
+  A/B/C token IDs and option mappings retained. Four-decimal output rounds
+  shipping to 0.0; this is not a zero full-precision probability.
+- The user verified Score levels 0/1/2 with temperature-scaled probabilities
+  0.0005123790, 0.0023998998 and 0.9970877212. Their expected score rounds
+  to the response value 1.9966. This validates the local adapted path, not
+  numerical parity with the official server.
 
 ## Liquid d1-3B research and environment record
 

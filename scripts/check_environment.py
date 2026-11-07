@@ -89,6 +89,16 @@ D1_REQUIREMENTS = {
     "pillow": ">=10,<13",
 }
 
+OPENJEV_REQUIREMENTS = {
+    "torch": "==2.13.0",
+    "transformers": "==5.17.0",
+    "peft": "==0.21.0",
+    "accelerate": "==1.15.0",
+    "huggingface_hub": "==1.32.0",
+    "safetensors": "==0.8.0",
+    "pillow": ">=10,<13",
+}
+
 
 def package_report(requirements: dict[str, str]) -> tuple[dict[str, Any], list[str]]:
     try:
@@ -362,9 +372,40 @@ def check_d1() -> tuple[dict[str, Any], list[str]]:
     )
 
 
+def check_openjev() -> tuple[dict[str, Any], list[str]]:
+    failures: list[str] = []
+    python_ok = (3, 12) <= sys.version_info[:2] < (3, 13)
+    if not python_ok:
+        failures.append("OpenJev profile requires Python >=3.12,<3.13")
+    packages, package_failures = package_report(OPENJEV_REQUIREMENTS)
+    failures.extend(package_failures)
+    cuda, cuda_failures = cuda_report()
+    failures.extend(cuda_failures)
+    cuda["required_torch_cuda_runtime"] = "13.0"
+    cuda["runtime_ok"] = cuda.get("torch_cuda_runtime") == "13.0"
+    if not cuda["runtime_ok"]:
+        failures.append("OpenJev profile requires the PyTorch CUDA 13.0 runtime")
+    return (
+        {
+            "profile": "openjev",
+            "python": {
+                "version": platform.python_version(),
+                "executable": sys.executable,
+                "required": ">=3.12,<3.13",
+                "ok": python_ok,
+            },
+            "platform": platform.platform(),
+            "packages": packages,
+            "cuda": cuda,
+            "model_loading_and_free_vram": "not checked",
+        },
+        failures,
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--profile", choices=("kev", "jeff", "laya", "bosun", "jeva", "d1"), required=True)
+    parser.add_argument("--profile", choices=("kev", "jeff", "laya", "bosun", "jeva", "d1", "openjev"), required=True)
     args = parser.parse_args()
 
     if args.profile == "kev":
@@ -379,6 +420,8 @@ def main() -> int:
         report, failures = check_jeva()
     elif args.profile == "d1":
         report, failures = check_d1()
+    elif args.profile == "openjev":
+        report, failures = check_openjev()
     else:  # pragma: no cover - argparse prevents this branch
         raise AssertionError(args.profile)
 

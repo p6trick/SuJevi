@@ -1,0 +1,74 @@
+{
+  "model": "OpenJev-27B",
+  "checkpoint": "/home1/irteam/data-vol1/SuJevi/models/huggingface/hub/models--openjev--openjev/snapshots/b4a89f5884f3482a5e894b2e7ff01db8ea033726",
+  "checkpoint_revision": "b4a89f5884f3482a5e894b2e7ff01db8ea033726",
+  "dtype": "bfloat16",
+  "quantized": false,
+  "transport": "direct_python",
+  "official_vllm_fp8_parity": "not_verified",
+  "helper_prompt_parity": "adapted_not_verified_against_server",
+  "default_model_representation": "calibrated_probability_distribution",
+  "questions": {
+    "urgency": {
+      "question_type": "score",
+      "option_ids": [
+        "0",
+        "1",
+        "2"
+      ],
+      "option_letters": {
+        "0": "A",
+        "1": "B",
+        "2": "C"
+      },
+      "option_token_ids": {
+        "0": 32,
+        "1": 33,
+        "2": 34
+      },
+      "raw_logits": {
+        "0": 15.3125,
+        "1": 16.625,
+        "2": 21.75
+      },
+      "raw_probability_distribution": {
+        "0": 0.0015884155218250436,
+        "1": 0.005901679622721962,
+        "2": 0.992509904855453
+      },
+      "readout_temperature_probability_distribution": {
+        "0": 0.0005123790168424646,
+        "1": 0.0023998998000998783,
+        "2": 0.9970877211830577
+      },
+      "calibrated_probability_distribution": {
+        "0": 0.0005123790168424646,
+        "1": 0.0023998998000998783,
+        "2": 0.9970877211830577
+      },
+      "calibration_method": "official_helper_temperature",
+      "readout_temperature": 0.85,
+      "noul_temperature": null,
+      "noul_bias": null,
+      "option_id_probability_mapping": [
+        {
+          "option_id": "0",
+          "probability": 0.0005123790168424646
+        },
+        {
+          "option_id": "1",
+          "probability": 0.0023998998000998783
+        },
+        {
+          "option_id": "2",
+          "probability": 0.9970877211830577
+        }
+      ],
+      "default_model_representation": {
+        "0": 0.0005123790168424646,
+        "1": 0.0023998998000998783,
+        "2": 0.9970877211830577
+      }
+    }
+  }
+}

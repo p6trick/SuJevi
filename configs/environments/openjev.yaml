@@ -1,0 +1,37 @@
+profile: openjev
+isolation: per-model
+manager: conda-pip
+conda_environment: openjev
+python: ">=3.12,<3.13"
+checkpoint_repository: openjev/openjev
+checkpoint_revision: b4a89f5884f3482a5e894b2e7ff01db8ea033726
+requirements_origin: The official measured server stack pins torch 2.13.0, transformers 5.17.0 and peft 0.21.0. This profile is for experimental direct Python BF16 inference, not the official vLLM FP8 serving stack; other pins are SuJevi choices.
+direct_requirements:
+  torch: "==2.13.0"
+  transformers: "==5.17.0"
+  peft: "==0.21.0"
+  accelerate: "==1.15.0"
+  huggingface_hub: "==1.32.0"
+  safetensors: "==0.8.0"
+  pillow: ">=10,<13"
+target_hardware:
+  gpu: NVIDIA H200
+  torch_cuda_runtime: "13.0"
+  precision: bfloat16
+validation:
+  environment: success_user_verified
+  python: 3.12.16
+  torch: 2.13.0+cu130
+  transformers: 5.17.0
+  peft: 0.21.0
+  accelerate: 1.15.0
+  huggingface_hub: 1.32.0
+  safetensors: 0.8.0
+  pillow: 12.3.0
+  gpu: NVIDIA H200
+  gpu_total_mib: 143771
+  gpu_used_mib_at_check: 63321
+  pip_check_without_pythonpath: passed
+  direct_python_loading: not_run
+  inference: not_run
+status: success_user_verified

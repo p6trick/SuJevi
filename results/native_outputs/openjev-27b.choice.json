@@ -1,0 +1,19 @@
+{
+  "model": "OpenJev-27B-direct-bf16",
+  "answers": {
+    "route": {
+      "type": "choice",
+      "choice": "billing",
+      "probabilities": {
+        "billing": 0.9998,
+        "shipping": 0.0,
+        "returns": 0.0001
+      },
+      "confidence": 0.9998
+    }
+  },
+  "usage": {
+    "input_tokens": 98,
+    "output_tokens": 0
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "model": "OpenJev-27B",
+  "checkpoint": "/home1/irteam/data-vol1/SuJevi/models/huggingface/hub/models--openjev--openjev/snapshots/b4a89f5884f3482a5e894b2e7ff01db8ea033726",
+  "checkpoint_revision": "b4a89f5884f3482a5e894b2e7ff01db8ea033726",
+  "dtype": "bfloat16",
+  "quantized": false,
+  "transport": "direct_python",
+  "official_vllm_fp8_parity": "not_verified",
+  "helper_prompt_parity": "adapted_not_verified_against_server",
+  "default_model_representation": "calibrated_probability_distribution",
+  "questions": {
+    "route": {
+      "question_type": "choice",
+      "option_ids": [
+        "billing",
+        "shipping",
+        "returns"
+      ],
+      "option_letters": {
+        "billing": "A",
+        "shipping": "B",
+        "returns": "C"
+      },
+      "option_token_ids": {
+        "billing": 32,
+        "shipping": 33,
+        "returns": 34
+      },
+      "raw_logits": {
+        "billing": 23.875,
+        "shipping": 14.375,
+        "returns": 16.375
+      },
+      "raw_probability_distribution": {
+        "billing": 0.9993724578563936,
+        "shipping": 7.480485720992001e-05,
+        "returns": 0.0005527372863965959
+      },
+      "readout_temperature_probability_distribution": {
+        "billing": 0.9998387984185942,
+        "shipping": 1.399750018073981e-05,
+        "returns": 0.00014720408122500733
+      },
+      "calibrated_probability_distribution": {
+        "billing": 0.9998387984185942,
+        "shipping": 1.399750018073981e-05,
+        "returns": 0.00014720408122500733
+      },
+      "calibration_method": "official_helper_temperature",
+      "readout_temperature": 0.85,
+      "noul_temperature": null,
+      "noul_bias": null,
+      "option_id_probability_mapping": [
+        {
+          "option_id": "billing",
+          "probability": 0.9998387984185942
+        },
+        {
+          "option_id": "shipping",
+          "probability": 1.399750018073981e-05
+        },
+        {
+          "option_id": "returns",
+          "probability": 0.00014720408122500733
+        }
+      ],
+      "default_model_representation": {
+        "billing": 0.9998387984185942,
+        "shipping": 1.399750018073981e-05,
+        "returns": 0.00014720408122500733
+      }
+    }
+  }
+}
