@@ -2,6 +2,39 @@
 
 Last updated: 2026-11-07 (Asia/Seoul)
 
+## WS1 Text Surrogate Model Pool scope
+
+The initial seven-family text model pool is complete for local loading and
+user-verified Noul, Choice and Score smoke requests: Kev, Jeff, Laya, Bosun,
+Jeva, Liquid d1 and OpenJev. This is a smoke-test completion statement, not
+verification that every dataset question, candidate count, input length or
+fine-tuning path is supported. Decider remains excluded by user decision;
+Bekko is on hold pending clarification of the released weights' license.
+Further model-pool expansion is deferred and may be revisited later.
+
+The common model output interface is **not implemented**. The runners expose
+model-specific native and representation artifacts, but there is no shared
+request/response contract, per-model normalizer or cross-model validator.
+Before WS2 model execution, define a versioned schema with stable option IDs,
+full-precision probabilities, native outputs, availability and provenance for
+raw logits and calibration, errors and truncation. Preserve the official
+meaning of Noul criteria, ordered Score values and candidate order. Adapters
+must explicitly flag unsupported inputs; do not silently substitute generic
+Noul definitions, drop options, truncate state or treat a missing calibrated
+distribution as calibrated. Bosun's identity calibration and Jeva/d1's null
+calibration fields have different semantics. Kev's probabilities artifact
+uses a different layout and does not expose all raw fields retained by later
+runners. OpenJev's direct BF16 helper adaptation remains unverified against
+the official vLLM/FP8 server. Jeva, d1 and OpenJev currently use individual
+scripts; d1 and OpenJev smoke runners accept one text question per invocation.
+Separate environments favor a shared on-disk interchange or process boundary;
+the execution mechanism remains a future design decision.
+
+The first WS2 dataset investigation is recorded in
+`docs/WS2_DATASET_RESEARCH.md`. S1MB's published split is test-only; any
+derived three-way partition must be labeled as a research protocol and
+reviewed against each source's terms. No dataset has been downloaded or split.
+
 Status values are `Pending`, `Code Ready`, `Awaiting User Execution`,
 `Success`, `Failed`, `Blocked`, and `Excluded`. A step is marked `Success`
 only from a user-provided execution result. `Excluded` records a deliberate
