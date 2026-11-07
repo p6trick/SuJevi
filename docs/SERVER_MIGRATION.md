@@ -3,10 +3,10 @@
 Status: preparation only. No environments, caches, checkpoints or results have
 been deleted. WS2 implementation is paused. The migration strategy is to clone
 Git and reconstruct environments and public checkpoints on the new server.
-The user has chosen to clean the old server before new-server recovery. This
-accepts the risk that a public artifact or dependency may later become
-unavailable. Review each target, preserve the environment exports, commit this
-document and confirm the remote commit before any user-directed cleanup.
+The old server's environments, weights, caches, exports and experiment results
+are to remain intact. No old-server cleanup is planned. For the new-server
+installation sequence and per-model validation commands, see
+[NEW_SERVER_REBUILD.md](NEW_SERVER_REBUILD.md).
 
 ## Current inventory
 
@@ -290,11 +290,10 @@ OpenJev 27B. Host driver-reported CUDA is not the same as the PyTorch runtime.
    identical bytes and latency are not guaranteed. Also retain calibration
    semantics and do not treat absent post-hoc calibration as proven.
 
-6. Record new-server results and any differences after reconstruction. The
-   user has explicitly chosen not to wait for this step before old-server
-   cleanup; preserve any private artifacts still needed before deleting them.
+6. Record new-server results and any differences after reconstruction. Keep
+   the existing server's environments, caches and artifacts intact.
 
-## Absolute paths and cleanup boundary
+## Absolute paths and preservation boundary
 
 Model runners generally derive their root from their script and support a
 `--checkpoint` argument; they are not hardcoded to `/home/irteam` in executable
@@ -304,7 +303,5 @@ as historical observations. Do not rewrite those records as new-server results.
 `HF_HOME` and checkpoint overrides must be reviewed individually: several
 runners default explicitly to the project cache rather than `HF_HOME`.
 
-Deletion commands are preparation only and must not be run until the user has
-reviewed the targets and other users' dependencies.
-Do not clean shared Conda or Hugging Face caches wholesale. Decide whether any
-non-reproducible local artifacts require a private backup before cleanup.
+Do not delete or clean the old server's Conda environments, model files,
+caches, environment exports or experiment results as part of this migration.
